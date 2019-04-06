@@ -4,6 +4,8 @@
     requires \valid(stack + (0 .. length - 1));
     requires \valid(left + (0 .. length - 1));
     requires \separated(stack + (0 .. length - 1),left + (0 .. length - 1));
+    requires \separated(stack + (0 .. length - 1), s + (0 .. length - 1));
+    requires \separated(left + (0 .. length - 1), s + (0 .. length - 1));
     assigns stack[0 .. length - 1], left[0 .. length - 1];
 
     ensures wf_left: \forall integer i; 0 <= i < length ==> left[i] <= i;
@@ -32,9 +34,10 @@ void neighbor(int* s, size_t length, size_t* stack, size_t* left) {
       loop invariant stack_sorder:
         \forall integer i, j;
           0<= i < j < sidx ==> s[stack[i]-1] < s[stack[j]-1];
-      loop invariant stack_wf:
-        \forall integer j; 0 <= j < x ==>
-        s[j] < s[x] ==> \exists integer sj; 0 <= sj < sidx && stack[sj] == j+1;
+      loop invariant stack_summary:
+        \forall integer i; 0<= i < sidx - 1 ==>
+          \forall integer j; stack[i]-1< j < stack[i+1]-1 ==>
+                 s[j] >= s[stack[i+1]-1];
       loop invariant stack_push: sidx > 0 ==> stack[sidx-1] == x;
       loop assigns x, sidx, stack[0 .. length - 1], left[0 .. length - 1];
       loop variant length - x;
