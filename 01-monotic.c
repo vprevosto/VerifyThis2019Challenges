@@ -1,7 +1,7 @@
 #include <stddef.h>
 
 /*@ predicate monotone_slice(int* a, size_t low, size_t up) =
-  (\forall integer i,j; low <= i <= j < up ==> a[i] < a[j]) ||
+  (\forall integer i,j; low <= i < j < up ==> a[i] < a[j]) ||
   (\forall integer i,j; low <= i <= j < up ==> a[i] >= a[j]);
 
 */
@@ -43,7 +43,7 @@ size_t monotonic(int* a, size_t length, size_t* cutpoints) {
     /*@
       loop invariant inner_bound: x + 1 <= y <= length;
       loop invariant mono_slice_1:
-      increasing ==> \forall integer i, j; x <= i <= j < y ==> a[i] < a[j];
+      increasing ==> \forall integer i, j; x <= i < j < y ==> a[i] < a[j];
       loop invariant mono_slice_2:
       (!increasing) ==> \forall integer i, j; x <= i <= j < y ==> a[i] >= a[j];
       loop assigns y;
