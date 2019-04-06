@@ -27,13 +27,14 @@ size_t monotonic(int* a, size_t length, size_t* cutpoints) {
   size_t res = 1;
   /*@
     loop invariant outer_bound: 1 <= y <= length;
-    loop invariant x: x == y - 1;
+    loop invariant x: y < length ==> x == y - 1;
     loop invariant monotone:
       \forall integer i; 0 <= i < res - 1 ==>
       monotone_slice(a,cutpoints[i],cutpoints[i+1]);
     loop invariant res_bounds: 1 <= res <= length;
     loop invariant content_bounds:
       \forall integer i; 0 <= i < res ==> 0<= cutpoints[i] <= length;
+    loop invariant last_write: cutpoints[res - 1] == x;
     loop assigns x,y,res,cutpoints[1 .. length];
     loop variant length - y;
    */
@@ -41,7 +42,10 @@ size_t monotonic(int* a, size_t length, size_t* cutpoints) {
     int increasing = a[x] < a[y];
     /*@
       loop invariant inner_bound: x + 1 <= y <= length;
-      loop invariant mono_slice: monotone_slice(a,x,y);
+      loop invariant mono_slice_1:
+      increasing ==> \forall integer i, j; x <= i <= j < y ==> a[i] < a[j];
+      loop invariant mono_slice_2:
+      (!increasing) ==> \forall integer i, j; x <= i <= j < y ==> a[i] >= a[j];
       loop assigns y;
       loop variant length - y;
     */
@@ -55,6 +59,7 @@ size_t monotonic(int* a, size_t length, size_t* cutpoints) {
     /*@ assert monotone_slice(a,x,length); */
     cutpoints[res] = length;
     res++;
+    /*@ assert monotone_slice(a,cutpoints[res - 2], cutpoints[res - 1]); */
   }
   return res;
 }
