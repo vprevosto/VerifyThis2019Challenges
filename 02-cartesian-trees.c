@@ -55,15 +55,13 @@ void neighbor(int* s, size_t length, size_t* stack, size_t* left) {
     if (sidx == 0) {
       left[x] = 0;
     } else {
-		//@ assert a3: s[stack[sidx - 1] - 1] < s[x];
-	label:
       left[x] = stack[sidx - 1];
-		//@ assert a4: s[x] == \at(s[x], label);
-		//@ assert a5: left[x] == stack[sidx - 1];
-		//@ assert a6: s[left[x] - 1] < s[x];
     }
 	//@ assert a1: left[x] > 0 ==> s[left[x] - 1] < s[x];
+label:
     stack[sidx] = x + 1;
+	//@ assert same: left[x] == \at(left[x], label);
+	//@ assert a2: left[x] > 0 ==> s[left[x] - 1] < s[x];
     sidx++;
   }
 }
