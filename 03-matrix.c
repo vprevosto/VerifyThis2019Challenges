@@ -27,6 +27,7 @@ typedef struct {
     requires \separated (vec + (0 .. length - 1), mat + (0 .. length - 1),
                          out + (0 .. length - 1));
     requires \forall integer i; 0 <= i < mat_length - 1 ==> mat[i].row < length;
+    requires \forall integer i; 0 <= i < mat_length - 1 ==> mat[i].col < length;
 
     requires
       \forall integer i, j; 0 <= i <= j < length ==>
