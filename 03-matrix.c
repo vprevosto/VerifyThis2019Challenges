@@ -49,7 +49,7 @@ void vec_mult(int * vec, size_t length, coo* mat, size_t mat_length, int* out,
       loop assigns i,out[0 .. length - 1];
       loop variant length - i;
   */
-  for(int i = 0; i < length; i++) out[i] == 0;
+  for(size_t i = 0; i < length; i++) out[i] == 0;
   /*@ loop invariant bound: 0 <= i <= mat_length;
       loop invariant lower_rows:
         i > 0 ==>
@@ -61,7 +61,7 @@ void vec_mult(int * vec, size_t length, coo* mat, size_t mat_length, int* out,
 
       loop assigns i, out[0 .. length-1];
    */
-  for(int i = 0; i < mat_length; i++) {
+  for(size_t i = 0; i < mat_length; i++) {
     out[mat[i].col]+= vec[mat[i].row] * mat[i].v;
   }
 }
