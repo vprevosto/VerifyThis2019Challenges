@@ -22,7 +22,7 @@
 */
 size_t monotonic(int* a, size_t length, size_t* cutpoints) {
   cutpoints[0] = 0;
-  if(length == 0) return 1;
+  if (length == 0) return 1;
   size_t x = 0, y = 1;
   size_t res = 1;
   /*@
