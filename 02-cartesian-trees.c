@@ -8,7 +8,7 @@
 
     ensures wf_left: \forall integer i; 0 <= i < length ==> left[i] <= i;
     ensures left_small:
-    \forall integer i; 0 <= i < length ==>
+    \forall integer i; 0 <= i < length ==> 0 < left[i] ==>
      left[i] > 0 ==> s[left[i]-1] < s[i];
      ensures left_smallest:
      \forall integer i; 0 <= i < length ==>
@@ -23,7 +23,7 @@ void neighbor(int* s, size_t length, size_t* stack, size_t* left) {
       loop invariant wf_left:
         \forall integer i; 0 <= i < x ==> left[i] <= i;
       loop invariant left_small:
-        \forall integer i; 0 <= i < x ==> s[left[i] - 1] < s[i];
+        \forall integer i; 0 <= i < x ==> left[i] > 0 ==> s[left[i] - 1] < s[i];
       loop invariant left_smallest:
         \forall integer i; 0 <= i < x ==>
           \forall integer j; left[i] <= j < i ==> s[j] >= s[i];
@@ -52,8 +52,14 @@ void neighbor(int* s, size_t length, size_t* stack, size_t* left) {
     if (sidx == 0) {
       left[x] = 0;
     } else {
+		//@ assert a3: s[stack[sidx - 1] - 1] < s[x];
+	label:
       left[x] = stack[sidx - 1];
+		//@ assert a4: s[x] == \at(s[x], label);
+		//@ assert a5: left[x] == stack[sidx - 1];
+		//@ assert a6: s[left[x] - 1] < s[x];
     }
+	//@ assert a1: left[x] > 0 ==> s[left[x] - 1] < s[x];
     stack[sidx] = x + 1;
     sidx++;
   }
