@@ -30,10 +30,12 @@ typedef struct {
     requires \forall integer i; 0 <= i < mat_length ==> mat[i].col < length;
 
     requires
-      \forall integer i, j; 0 <= i <= j < length ==>
-         mat[i].row < mat[j].row ||
-           (mat[i].row == mat[j].row &&
-            mat[i].col <= mat[j].col);
+      \forall integer i, j; 0 <= i <= j < mat_length ==>
+         mat[i].row <= mat[j].row;
+
+    requires
+      \forall integer i,j; 0 <= i < j < mat_length ==>
+         mat[i].row == mat[j].row ==> mat[i].col < mat[j].col;
 
    requires repr(mat,mat_length,rep);
 
@@ -52,7 +54,13 @@ void vec_mult(int * vec, size_t length, coo* mat, size_t mat_length, int* out,
   */
   for(size_t i = 0; i < length; i++) out[i] = 0;
   /*@ loop invariant bound: 0 <= i <= mat_length;
-      loop invariant lower_rows:
+    loop invariant init:
+      i == 0 ==> \forall integer j; 0 <= j < length ==>
+      out[j] == l_vec_mult(vec,rep,0,j,0);
+    loop invariant upper_rows:
+      i > 0 ==> \forall integer j; mat[i-1].row < j < length ==>
+      out[j] == l_vec_mult(vec,rep,0,j,0);
+    loop invariant lower_rows:
         i > 0 ==>
         \forall integer j;
            0 <= j < mat[i-1].row ==> out[j] == l_vec_mult(vec,rep,length,j,0);
@@ -63,8 +71,20 @@ void vec_mult(int * vec, size_t length, coo* mat, size_t mat_length, int* out,
       loop assigns i, out[0 .. length-1];
    */
   for(size_t i = 0; i < mat_length; i++) {
-    /*@ assert ib: 0 <= i < mat_length; */
-    /*@ assert unchanged: \at(mat[\at(i,Here)].row,Pre) < length; */
+    /*@ assert null1:
+      i > 0 ==> mat[i-1].row < mat[i].row ==>
+        \forall integer j; mat[i-1].col < j ==> rep[mat[i-1].row][j] == 0; */
+    /*@ assert null2:
+      i > 0 ==> mat[i-1].row == mat[i].row ==>
+        \forall integer j; mat[i-1].col < j < mat[i].col ==>
+           rep[mat[i-1].row][j] == 0; */
+    /*@ assert order1: \forall integer j; 0 <= j < i ==>
+      mat[j].row <= mat[i].row;
+    */
+    /*@ assert order2: \forall integer j; 0 <= j < i ==>
+          mat[j].row == mat[i].row ==>
+          mat[j].col < mat[i].col;
+    */
     out[mat[i].col]+= vec[mat[i].row] * mat[i].v;
   }
 }
