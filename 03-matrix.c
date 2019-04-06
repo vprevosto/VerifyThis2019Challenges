@@ -24,10 +24,10 @@ typedef struct {
 /*@ requires \valid(vec + (0 .. length - 1));
     requires \valid(out + (0 .. length - 1));
     requires \valid(mat + (0 .. mat_length - 1));
-    requires \separated (vec + (0 .. length - 1), mat + (0 .. length - 1),
-                         out + (0 .. length - 1));
-    requires \forall integer i; 0 <= i < mat_length - 1 ==> mat[i].row < length;
-    requires \forall integer i; 0 <= i < mat_length - 1 ==> mat[i].col < length;
+    requires \separated (out + (0 .. length - 1), mat + (0 .. mat_length - 1));
+    requires \separated (out + (0 .. length - 1), vec + (0 .. length - 1));
+    requires \forall integer i; 0 <= i < mat_length ==> mat[i].row < length;
+    requires \forall integer i; 0 <= i < mat_length ==> mat[i].col < length;
 
     requires
       \forall integer i, j; 0 <= i <= j < length ==>
@@ -63,6 +63,8 @@ void vec_mult(int * vec, size_t length, coo* mat, size_t mat_length, int* out,
       loop assigns i, out[0 .. length-1];
    */
   for(size_t i = 0; i < mat_length; i++) {
+    /*@ assert ib: 0 <= i < mat_length; */
+    /*@ assert unchanged: \at(mat[\at(i,Here)].row,Pre) < length; */
     out[mat[i].col]+= vec[mat[i].row] * mat[i].v;
   }
 }
