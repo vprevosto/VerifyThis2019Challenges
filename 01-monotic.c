@@ -21,6 +21,7 @@
 */
 size_t monotonic(int* a, size_t length, size_t* cutpoints) {
   cutpoints[0] = 0;
+  if (length == 0) return 1;
   size_t x = 0, y = 1;
   size_t res = 1;
   /*@
@@ -29,7 +30,7 @@ size_t monotonic(int* a, size_t length, size_t* cutpoints) {
     loop invariant monotone:
       \forall integer i; 0 <= i < res - 1 ==>
       monotone_slice(a,cutpoints[i],cutpoints[i+1]);
-    loop invariant res_bounds: 1 <= res < length;
+    loop invariant res_bounds: 1 <= res <= length;
     loop invariant content_bounds:
       \forall integer i; 0 <= i < res ==> 0<= cutpoints[i] <= length;
     loop assigns x,y,res,cutpoints[1 .. length - 1];
