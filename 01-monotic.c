@@ -32,7 +32,7 @@ size_t monotonic(int* a, size_t length, size_t* cutpoints) {
     loop invariant monotone:
       \forall integer i; 0 <= i < res - 1 ==>
       monotone_slice(a,cutpoints[i],cutpoints[i+1]);
-    loop invariant res_bounds: 1 <= res <= length;
+    loop invariant res_bounds: 1 <= res <= y;
     loop invariant content_bounds:
       \forall integer i; 0 <= i < res ==> 0<= cutpoints[i] <= length;
     loop invariant last_write: cutpoints[res - 1] == x;
@@ -43,6 +43,7 @@ size_t monotonic(int* a, size_t length, size_t* cutpoints) {
     int increasing = a[x] < a[y];
     /*@
       loop invariant inner_bound: x + 1 <= y <= length;
+      loop invariant res_low: res <= y;
       loop invariant mono_slice_1:
       increasing ==> \forall integer i, j; x <= i < j < y ==> a[i] < a[j];
       loop invariant mono_slice_2:
