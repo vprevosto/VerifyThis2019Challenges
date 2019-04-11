@@ -10,6 +10,7 @@
 	requires length < 100;
     requires a_valid: \valid(a + (0 .. length - 1));
     requires res_valid: \valid(cutpoints + (0 .. length));
+    requires sep: \separated(a + (0 .. length - 1), cutpoints + (0 .. length));
     assigns cutpoints[0 .. length];
     ensures pos: \result > 0;
     ensures beg: cutpoints[0] == 0;
