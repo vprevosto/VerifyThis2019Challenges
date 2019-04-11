@@ -36,6 +36,8 @@ size_t monotonic(int* a, size_t length, size_t* cutpoints) {
     loop invariant res_bounds: 1 <= res <= y;
     loop invariant content_bounds:
       \forall integer i; 0 <= i < res ==> 0<= cutpoints[i] <= length;
+    loop invariant cuts_increase:
+      \forall integer i, j; 0 <= i <= j < res ==> cutpoints[i] <= cutpoints[j];
     loop invariant last_write: cutpoints[res - 1] == x;
     loop assigns x,y,res,cutpoints[1 .. length];
     loop variant length - y;
