@@ -58,6 +58,7 @@ size_t monotonic(int* a, size_t length, size_t* cutpoints) {
     /*@ assert mono: monotone_slice(a,x,y); */
     cutpoints[res] = y;
     res++;
+    /*@ assert mono_res: monotone_slice(a,cutpoints[res-2],cutpoints[res-1]);*/
     x = y;
     if (y < length) y++;
   }
