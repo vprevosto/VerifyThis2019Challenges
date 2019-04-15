@@ -5,5 +5,6 @@
                 -wp-prover script,alt-ergo,Z3 \
                 -wp-split \
                 -wp-session 01-monotonic-proofs \
-                -wp-par 16 \
+                -wp-par 1 \
+                -wp-timeout 15 \
                 01-monotonic.c
