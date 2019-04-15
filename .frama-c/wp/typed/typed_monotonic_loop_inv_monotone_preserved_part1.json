@@ -11,9 +11,7 @@
                                         "target": "(to_uint32 (1+res_2))",
                                         "pattern": "to_uint32+1$res" } ] } },
     "select": null,
-    "children": { "Positive": [ { "prover": "alt-ergo", "verdict": "timeout",
-                                  "time": 10. },
-                                { "header": "Cut", "tactic": "Wp.cut",
+    "children": { "Positive": [ { "header": "Cut", "tactic": "Wp.cut",
                                   "params": { "case": "MODUS",
                                               "clause": { "select": "compose",
                                                           "id": "wp:lt",
@@ -33,10 +31,11 @@
                                                                     "target": "res_2",
                                                                     "pattern": "$res" } ] } },
                                   "select": null,
-                                  "children": { "Assume": [ { "prover": "alt-ergo",
-                                                              "verdict": "timeout",
-                                                              "time": 10. },
-                                                            { "header": "Instance",
+                                  "children": { "Clause": [ { "prover": "alt-ergo",
+                                                              "verdict": "valid",
+                                                              "time": 0.038,
+                                                              "steps": 100 } ],
+                                                "Assume": [ { "header": "Instance",
                                                               "tactic": "Wp.instance",
                                                               "params": 
                                                                 { "P1": 
@@ -61,10 +60,7 @@
                                                                   "pattern": "\\F><=<=P_monotone_slice0#0+$reshavoc" },
                                                               "children": 
                                                                 { "Instance": 
-                                                                    [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Cut",
+                                                                    [ { "header": "Cut",
                                                                     "tactic": "Wp.cut",
                                                                     "params": 
                                                                     { "case": "MODUS",
@@ -84,11 +80,13 @@
                                                                     "pattern": "[]havocshift_uint32$Mint_undef[=]" } ] } },
                                                                     "select": null,
                                                                     "children": 
-                                                                    { "Assume": 
+                                                                    { "Clause": 
                                                                     [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Cut",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.3203,
+                                                                    "steps": 464 } ],
+                                                                    "Assume": 
+                                                                    [ { "header": "Cut",
                                                                     "tactic": "Wp.cut",
                                                                     "params": 
                                                                     { "case": "MODUS",
@@ -108,11 +106,13 @@
                                                                     "pattern": "[]havocshift_uint32$Mint_undef[=]" } ] } },
                                                                     "select": null,
                                                                     "children": 
-                                                                    { "Assume": 
+                                                                    { "Clause": 
                                                                     [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Definition",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.3069,
+                                                                    "steps": 466 } ],
+                                                                    "Assume": 
+                                                                    [ { "header": "Definition",
                                                                     "tactic": "Wp.unfold",
                                                                     "params": {},
                                                                     "select": 
@@ -123,10 +123,7 @@
                                                                     "pattern": "P_monotone_slicehavoc$a[][]$Mint_undef" },
                                                                     "children": 
                                                                     { "Unfold 'P_monotone_slice'": 
-                                                                    [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Definition",
+                                                                    [ { "header": "Definition",
                                                                     "tactic": "Wp.unfold",
                                                                     "params": {},
                                                                     "select": 
@@ -135,10 +132,7 @@
                                                                     "pattern": "P_monotone_slice[=]$a[][]havocshift_uint32" },
                                                                     "children": 
                                                                     { "Unfold 'P_monotone_slice'": 
-                                                                    [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Split",
+                                                                    [ { "header": "Split",
                                                                     "tactic": "Wp.split",
                                                                     "params": {},
                                                                     "select": 
@@ -148,8 +142,11 @@
                                                                     "target": "let a_0 =\n    (havoc Mint_undef_0 Mint_16[(shift_uint32 cutpoints_1 0)->0]\n      (shift_uint32 cutpoints_1 1) length_3) in\nlet a_1 = a_0[(shift_uint32 cutpoints_1 (1+i_11))] in\nlet a_2 = a_0[(shift_uint32 cutpoints_1 i_11)] in\n(forall i_0,i_1:int.\n (i_0<i_1) -> (i_1<a_1) -> (a_2<=i_0)\n -> (a_0[(shift_sint32 a_2 i_0)]<a_0[(shift_sint32 a_2 i_1)]))\n\\/ (forall i_0,i_1:int.\n    (i_0<=i_1) -> (i_1<a_1) -> (a_2<=i_0)\n    -> (a_0[(shift_sint32 a_2 i_1)]<=a_0[(shift_sint32 a_2 i_0)]))",
                                                                     "pattern": "|\\F\\F\\F\\F>><<<=<<=<<=<=#1#0#0[][]" },
                                                                     "children": 
-                                                                    { "Case 2/2": 
-                                                                    [ { "prover": "alt-ergo",
+                                                                    { "Case 1/2": 
+                                                                    [ { "prover": "why3:Z3",
+                                                                    "verdict": "timeout",
+                                                                    "time": 10. },
+                                                                    { "prover": "alt-ergo",
                                                                     "verdict": "timeout",
                                                                     "time": 10. },
                                                                     { "header": "Choice",
@@ -158,6 +155,53 @@
                                                                     "select": 
                                                                     { "select": "inside-goal",
                                                                     "occur": 0,
+                                                                    "target": "let a_0 =\n    (havoc Mint_undef_0 Mint_16[(shift_uint32 cutpoints_1 0)->0]\n      (shift_uint32 cutpoints_1 1) length_3)[(shift_uint32 cutpoints_1 res_2)\n      ->y_6] in\nforall i_0,i_1:int.\n(i_0<i_1) -> (i_1<a_0[(shift_uint32 cutpoints_1 (1+i_11))])\n-> (a_0[(shift_uint32 cutpoints_1 i_11)]<=i_0)\n-> (a_0[(shift_sint32 a_2 i_0)]<a_0[(shift_sint32 a_2 i_1)])",
+                                                                    "pattern": "\\F\\F><<<=<#1#0#0[][]#1[][][=]shift_uint32" },
+                                                                    "children": {} } ],
+                                                                    "Case 2/2": 
+                                                                    [ { "header": "Choice",
+                                                                    "tactic": "Wp.choice",
+                                                                    "params": {},
+                                                                    "select": 
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 0,
                                                                     "target": "let a_0 =\n    (havoc Mint_undef_0 Mint_16[(shift_uint32 cutpoints_1 0)->0]\n      (shift_uint32 cutpoints_1 1) length_3)[(shift_uint32 cutpoints_1 res_2)\n      ->y_6] in\nforall i_0,i_1:int.\n(i_0<=i_1) -> (i_1<a_0[(shift_uint32 cutpoints_1 (1+i_11))])\n-> (a_0[(shift_uint32 cutpoints_1 i_11)]<=i_0)\n-> (a_0[(shift_sint32 a_2 i_1)]<=a_0[(shift_sint32 a_2 i_0)])",
                                                                     "pattern": "\\F\\F><=<<=<=#1#0#0[][]#1[][][=]shift_uint32" },
-                                                                    "children": {} } ] } } ] } } ] } } ] } } ] } } ] } } ] } } ] } } ]
+                                                                    "children": 
+                                                                    { "Choice": 
+                                                                    [ { "prover": "why3:Z3",
+                                                                    "verdict": "timeout",
+                                                                    "time": 10. },
+                                                                    { "prover": "alt-ergo",
+                                                                    "verdict": "timeout",
+                                                                    "time": 10. },
+                                                                    { "header": "Instance",
+                                                                    "tactic": "Wp.instance",
+                                                                    "params": 
+                                                                    { "P1": 
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 1,
+                                                                    "target": "i_12",
+                                                                    "pattern": "$i" },
+                                                                    "P2": 
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 0,
+                                                                    "target": "i_13",
+                                                                    "pattern": "$i" },
+                                                                    "P3": null,
+                                                                    "P4": null,
+                                                                    "P5": null,
+                                                                    "P6": null,
+                                                                    "P7": null,
+                                                                    "P8": null,
+                                                                    "P9": null,
+                                                                    "P10": null },
+                                                                    "select": 
+                                                                    { "select": "clause-step",
+                                                                    "at": 21,
+                                                                    "kind": "have",
+                                                                    "target": "let a_0 =\n    (havoc Mint_undef_0 Mint_16[(shift_uint32 cutpoints_1 0)->0]\n      (shift_uint32 cutpoints_1 1) length_3) in\nforall i_0,i_1:int.\n(i_0<=i_1) -> (i_1<a_0[(shift_uint32 cutpoints_1 (1+i_11))])\n-> (a_0[(shift_uint32 cutpoints_1 i_11)]<=i_0)\n-> (a_0[(shift_sint32 a_2 i_1)]<=a_0[(shift_sint32 a_2 i_0)])",
+                                                                    "pattern": "\\F\\F><=<<=<=#1#0#0[][]#1[][]havoc" },
+                                                                    "children": {} } ] } } ] } } ] } } ] } } ] } } ] } } ] } } ] } } ],
+                  "Negative": [ { "prover": "alt-ergo", "verdict": "valid",
+                                  "time": 0.0193, "steps": 16 } ] } } ]
