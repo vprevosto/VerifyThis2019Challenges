@@ -1,10 +1,10 @@
-.PHONY: 01-monotonic
+.PHONY: %-check
 
-01-monotonic:
+%-check:
 	frama-c -wp -wp-rte \
                 -wp-prover script,alt-ergo,Z3 \
                 -wp-split \
-                -wp-session 01-monotonic-proofs \
+                -wp-session $*-proofs \
                 -wp-par 1 \
                 -wp-timeout 15 \
-                01-monotonic.c
+                $*.c
