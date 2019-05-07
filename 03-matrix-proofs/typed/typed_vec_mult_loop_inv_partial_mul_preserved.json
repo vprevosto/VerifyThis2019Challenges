@@ -1,0 +1,450 @@
+[ { "header": "Cut", "tactic": "Wp.cut",
+    "params": { "case": "CASES",
+                "clause": { "select": "compose", "id": "wp:eq",
+                            "args": [ { "select": "inside-goal", "occur": 1,
+                                        "target": "i_6", "pattern": "$i" },
+                                      { "select": "inside-goal", "occur": 0,
+                                        "target": "(havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2)\n  [(shiftfield_F1_col (shift___anonstruct_coo_1 mat_0 i_7))]",
+                                        "pattern": "[]havocshiftfield_F1_col$Mint_undef" } ] } },
+    "select": null,
+    "children": { "Positive": [ { "header": "Cut", "tactic": "Wp.cut",
+                                  "params": { "case": "MODUS",
+                                              "clause": { "select": "compose",
+                                                          "id": "wp:eq",
+                                                          "args": [ { "select": "inside-goal",
+                                                                    "occur": 0,
+                                                                    "target": "(havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2)\n  [(shiftfield_F1_col (shift___anonstruct_coo_1 mat_0 i_7))]",
+                                                                    "pattern": "[]havocshiftfield_F1_col$Mint_undef" },
+                                                                    { "select": "inside-step",
+                                                                    "at": 33,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nlet a_1 = (shift___anonstruct_coo_1 mat_0 i_7) in\nlet a_2 = (shift_sint32 out_2 a_0[(shiftfield_F1_col a_1)]) in\na_0[a_2\n  ->(to_sint32\n      ((to_sint32\n         (a_0[(shiftfield_F1_v a_1)]*\n          a_0[(shift_sint32 vec_0 a_0[(shiftfield_F1_row a_1)])]))+a_0[a_2]))]\n  [(shiftfield_F1_col\n     (shift___anonstruct_coo_1 mat_0 ((to_uint32 (1+i_7))-1)))]",
+                                                                    "pattern": "[][=]shiftfield_F1_colhavocshift_sint32" } ] } },
+                                  "select": null,
+                                  "children": { "Clause": [ { "prover": "alt-ergo",
+                                                              "verdict": "valid",
+                                                              "time": 0.7464,
+                                                              "steps": 872 } ],
+                                                "Assume": [ { "header": "Cut",
+                                                              "tactic": "Wp.cut",
+                                                              "params": 
+                                                                { "case": "MODUS",
+                                                                  "clause": 
+                                                                    { "select": "compose",
+                                                                    "id": "wp:eq",
+                                                                    "args": 
+                                                                    [ { "select": "inside-step",
+                                                                    "at": 33,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nlet a_1 = (shift___anonstruct_coo_1 mat_0 i_7) in\nlet a_2 = (shift_sint32 out_2 a_0[(shiftfield_F1_col a_1)]) in\na_0[a_2\n  ->(to_sint32\n      ((to_sint32\n         (a_0[(shiftfield_F1_v a_1)]*\n          a_0[(shift_sint32 vec_0 a_0[(shiftfield_F1_row a_1)])]))+a_0[a_2]))]\n  [(shiftfield_F1_v (shift___anonstruct_coo_1 mat_0 ((to_uint32 (1+i_7))-1)))]",
+                                                                    "pattern": "[][=]shiftfield_F1_vhavocshift_sint32" },
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 0,
+                                                                    "target": "(havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2)\n  [(shiftfield_F1_v (shift___anonstruct_coo_1 mat_0 i_7))]",
+                                                                    "pattern": "[]havocshiftfield_F1_v$Mint_undef" } ] } },
+                                                              "select": null,
+                                                              "children": 
+                                                                { "Clause": 
+                                                                    [ { "prover": "alt-ergo",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.6898,
+                                                                    "steps": 868 } ],
+                                                                  "Assume": 
+                                                                    [ { "header": "Cut",
+                                                                    "tactic": "Wp.cut",
+                                                                    "params": 
+                                                                    { "case": "MODUS",
+                                                                    "clause": 
+                                                                    { "select": "compose",
+                                                                    "id": "wp:eq",
+                                                                    "args": 
+                                                                    [ { "select": "inside-step",
+                                                                    "at": 33,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nlet a_1 = (shift___anonstruct_coo_1 mat_0 i_7) in\nlet a_2 = (shift_sint32 out_2 a_0[(shiftfield_F1_col a_1)]) in\nlet a_3 =\n    a_0[a_2\n      ->(to_sint32\n          ((to_sint32\n             (a_0[(shiftfield_F1_v a_1)]*\n              a_0[(shift_sint32 vec_0 a_0[(shiftfield_F1_row a_1)])]))+\n           a_0[a_2]))] in\na_3\n  [(shift_sint32 vec_0\n     a_3\n       [(shiftfield_F1_row\n          (shift___anonstruct_coo_1 mat_0 ((to_uint32 (1+i_7))-1)))])]",
+                                                                    "pattern": "[][=]shift_sint32havocshift_sint32" },
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 1,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\na_0\n  [(shift_sint32 vec_0\n     a_0[(shiftfield_F1_row (shift___anonstruct_coo_1 mat_0 i_7))])]",
+                                                                    "pattern": "[]havocshift_sint32$Mint_undef$Mint" } ] } },
+                                                                    "select": null,
+                                                                    "children": 
+                                                                    { "Clause": 
+                                                                    [ { "prover": "alt-ergo",
+                                                                    "verdict": "valid",
+                                                                    "time": 1.5102,
+                                                                    "steps": 1525 } ],
+                                                                    "Assume": 
+                                                                    [ { "header": "Cut",
+                                                                    "tactic": "Wp.cut",
+                                                                    "params": 
+                                                                    { "case": "MODUS",
+                                                                    "clause": 
+                                                                    { "select": "compose",
+                                                                    "id": "wp:eq",
+                                                                    "args": 
+                                                                    [ { "select": "inside-step",
+                                                                    "at": 33,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nlet a_1 = (shift___anonstruct_coo_1 mat_0 i_7) in\nlet a_2 = a_0[(shiftfield_F1_col a_1)] in\nlet a_3 = (shift_sint32 out_2 a_2) in\n(L_l_vec_mult\n  a_0[a_3\n    ->(to_sint32\n        ((to_sint32\n           (a_0[(shiftfield_F1_v a_1)]*\n            a_0[(shift_sint32 vec_0 a_0[(shiftfield_F1_row a_1)])]))+\n         a_0[a_3]))] vec_0 mat_0 0 i_2 a_2 0 ((to_uint32 (1+i_7))-1))",
+                                                                    "pattern": "L_l_vec_mult[=]$vec$mat0$i[]0+havoc" },
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 0,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\na_0\n  [(shift_sint32 out_2\n     a_0[(shiftfield_F1_col (shift___anonstruct_coo_1 mat_0 i_7))])]",
+                                                                    "pattern": "[]havocshift_sint32$Mint_undef$Mint" } ] } },
+                                                                    "select": null,
+                                                                    "children": 
+                                                                    { "Clause": 
+                                                                    [ { "header": "Instance",
+                                                                    "tactic": "Wp.instance",
+                                                                    "params": 
+                                                                    { "P1": 
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 0,
+                                                                    "target": "(havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2)\n  [(shiftfield_F1_col (shift___anonstruct_coo_1 mat_0 i_7))]",
+                                                                    "pattern": "[]havocshiftfield_F1_col$Mint_undef" },
+                                                                    "P2": null,
+                                                                    "P3": null,
+                                                                    "P4": null,
+                                                                    "P5": null,
+                                                                    "P6": null,
+                                                                    "P7": null,
+                                                                    "P8": null,
+                                                                    "P9": null,
+                                                                    "P10": null },
+                                                                    "select": 
+                                                                    { "select": "clause-step",
+                                                                    "at": 20,
+                                                                    "kind": "have",
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nforall i_0:int.\n(0<=i_0) -> (i_0<i_2)\n-> (a_0[(shift_sint32 out_2 i_0)]=\n    (L_l_vec_mult a_0 vec_0 mat_0 0 i_2 i_0 0 i_7))",
+                                                                    "pattern": "\\F><=<=0#0#0$i[]L_l_vec_multhavoc" },
+                                                                    "children": 
+                                                                    { "Instance": 
+                                                                    [ { "header": "Cut",
+                                                                    "tactic": "Wp.cut",
+                                                                    "params": 
+                                                                    { "case": "MODUS",
+                                                                    "clause": 
+                                                                    { "select": "inside-step",
+                                                                    "at": 20,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "(havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2)\n  [(shiftfield_F1_col (shift___anonstruct_coo_1 mat_0 i_7))]<i_2",
+                                                                    "pattern": "<[]$ihavocshiftfield_F1_col$Mint_undef" } },
+                                                                    "select": null,
+                                                                    "children": 
+                                                                    { "Clause": 
+                                                                    [ { "prover": "alt-ergo",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.0258,
+                                                                    "steps": 16 } ],
+                                                                    "Assume": 
+                                                                    [ { "header": "Cut",
+                                                                    "tactic": "Wp.cut",
+                                                                    "params": 
+                                                                    { "case": "MODUS",
+                                                                    "clause": 
+                                                                    { "select": "compose",
+                                                                    "id": "wp:eq",
+                                                                    "args": 
+                                                                    [ { "select": "inside-goal",
+                                                                    "occur": 0,
+                                                                    "target": "(to_uint32 (1+i_7))-1",
+                                                                    "pattern": "+-1to_uint32+1$i" },
+                                                                    { "select": "inside-step",
+                                                                    "at": 20,
+                                                                    "kind": "have",
+                                                                    "occur": 1,
+                                                                    "target": "i_7",
+                                                                    "pattern": "$i" } ] } },
+                                                                    "select": 
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 0,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nlet a_1 = (shift___anonstruct_coo_1 mat_0 i_7) in\nlet a_2 = a_0[(shiftfield_F1_col a_1)] in\nlet a_3 = (shift_sint32 out_2 a_2) in\n(L_l_vec_mult\n  a_0[a_3\n    ->(to_sint32\n        ((to_sint32\n           (a_0[(shiftfield_F1_v a_1)]*\n            a_0[(shift_sint32 vec_0 a_0[(shiftfield_F1_row a_1)])]))+\n         a_0[a_3]))] vec_0 mat_0 0 i_2 a_2 0 ((to_uint32 (1+i_7))-1))",
+                                                                    "pattern": "L_l_vec_mult[=]$vec$mat0$i[]0+havoc" },
+                                                                    "children": 
+                                                                    { "Clause": 
+                                                                    [ { "prover": "alt-ergo",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.0551,
+                                                                    "steps": 110 } ],
+                                                                    "Assume": 
+                                                                    [ { "header": "Lemma",
+                                                                    "tactic": "Wp.lemma",
+                                                                    "params": 
+                                                                    { "lemma": 
+                                                                    { "id": "l_vec_mult_ident",
+                                                                    "title": "l_vec_mult_ident",
+                                                                    "descr": "(forall i_0:int.\n let a_0 = (shift_sint32 vec_0 i_0) in\n (0<=i_0) -> (i_0<length_v_0) -> (Mint_1[a_0]=Mint_0[a_0]))\n-> (forall i_0:int.\n    let a_0 = (shift___anonstruct_coo_1 c_0 i_0) in\n    (0<=i_0) -> (i_0<length_c_0)\n    -> (EqS1 (Load_S1 a_0 Mint_1) (Load_S1 a_0 Mint_0)))\n-> ((L_l_vec_mult Mint_1 vec_0 c_0 0 length_v_0 j_0 0 length_c_0)=\n    (L_l_vec_mult Mint_0 vec_0 c_0 0 length_v_0 j_0 0 length_c_0))" },
+                                                                    "P1": 
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 0,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nlet a_1 = (shift___anonstruct_coo_1 mat_0 i_7) in\nlet a_2 = (shift_sint32 out_2 a_0[(shiftfield_F1_col a_1)]) in\na_0[a_2\n  ->(to_sint32\n      ((to_sint32\n         (a_0[(shiftfield_F1_v a_1)]*\n          a_0[(shift_sint32 vec_0 a_0[(shiftfield_F1_row a_1)])]))+a_0[a_2]))]",
+                                                                    "pattern": "[=]havocshift_sint32to_sint32$Mint_undef" },
+                                                                    "P2": 
+                                                                    { "select": "inside-step",
+                                                                    "at": 20,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "(havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2)",
+                                                                    "pattern": "havoc$Mint_undef$Mintshift_sint32" },
+                                                                    "P3": 
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 0,
+                                                                    "target": "vec_0",
+                                                                    "pattern": "$vec" },
+                                                                    "P4": 
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 0,
+                                                                    "target": "mat_0",
+                                                                    "pattern": "$mat" },
+                                                                    "P5": 
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 0,
+                                                                    "target": "i_2",
+                                                                    "pattern": "$i" },
+                                                                    "P6": 
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 0,
+                                                                    "target": "(havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2)\n  [(shiftfield_F1_col (shift___anonstruct_coo_1 mat_0 i_7))]",
+                                                                    "pattern": "[]havocshiftfield_F1_col$Mint_undef" },
+                                                                    "P7": 
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 1,
+                                                                    "target": "i_7",
+                                                                    "pattern": "$i" },
+                                                                    "P8": null,
+                                                                    "P9": null,
+                                                                    "P10": null },
+                                                                    "select": 
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 0,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nlet a_1 = (shift___anonstruct_coo_1 mat_0 i_7) in\nlet a_2 = a_0[(shiftfield_F1_col a_1)] in\nlet a_3 = (shift_sint32 out_2 a_2) in\n(L_l_vec_mult\n  a_0[a_3\n    ->(to_sint32\n        ((to_sint32\n           (a_0[(shiftfield_F1_v a_1)]*\n            a_0[(shift_sint32 vec_0 a_0[(shiftfield_F1_row a_1)])]))+\n         a_0[a_3]))] vec_0 mat_0 0 i_2 a_2 0 i_7)",
+                                                                    "pattern": "L_l_vec_mult[=]$vec$mat0$i[]0$ihavoc" },
+                                                                    "children": 
+                                                                    { "l_vec_mult_ident": 
+                                                                    [ { "header": "Cut",
+                                                                    "tactic": "Wp.cut",
+                                                                    "params": 
+                                                                    { "case": "MODUS",
+                                                                    "clause": 
+                                                                    { "select": "inside-step",
+                                                                    "at": 41,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nlet a_1 = (shift___anonstruct_coo_1 mat_0 i_7) in\nlet a_2 = (shift_sint32 out_2 a_0[(shiftfield_F1_col a_1)]) in\nforall i_0:int.\nlet a_3 = (shift_sint32 vec_0 i_0) in\n(0<=i_0) -> (i_0<i_2)\n-> (a_0[a_2\n      ->(to_sint32\n          ((to_sint32\n             (a_0[(shiftfield_F1_v a_1)]*\n              a_0[(shift_sint32 vec_0 a_0[(shiftfield_F1_row a_1)])]))+\n           a_0[a_2]))][a_3]=a_0[a_3])",
+                                                                    "pattern": "\\F><=<=0#0#0$i[][][=]shift_sint32" } },
+                                                                    "select": null,
+                                                                    "children": 
+                                                                    { "Clause": 
+                                                                    [ { "prover": "alt-ergo",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.8096,
+                                                                    "steps": 962 } ],
+                                                                    "Assume": 
+                                                                    [ { "prover": "alt-ergo",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.9669,
+                                                                    "steps": 996 } ] } } ] } } ] } } ] } } ] } } ] } } ] } } ] } } ] } } ],
+                  "Negative": [ { "header": "Instance",
+                                  "tactic": "Wp.instance",
+                                  "params": { "P1": { "select": "inside-goal",
+                                                      "occur": 1,
+                                                      "target": "i_6",
+                                                      "pattern": "$i" },
+                                              "P2": null, "P3": null,
+                                              "P4": null, "P5": null,
+                                              "P6": null, "P7": null,
+                                              "P8": null, "P9": null,
+                                              "P10": null },
+                                  "select": { "select": "inside-step",
+                                              "at": 34, "kind": "have",
+                                              "occur": 0,
+                                              "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nlet a_1 = (shift___anonstruct_coo_1 mat_0 i_7) in\nlet a_2 = (shift_sint32 out_2 a_0[(shiftfield_F1_col a_1)]) in\nlet a_3 =\n    a_0[a_2\n      ->(to_sint32\n          ((to_sint32\n             (a_0[(shiftfield_F1_v a_1)]*\n              a_0[(shift_sint32 vec_0 a_0[(shiftfield_F1_row a_1)])]))+\n           a_0[a_2]))] in\nlet x_0 = (to_uint32 (1+i_7)) in\nlet x_1 = (x_0-1) in\nforall i_0:int.\n(a_3[(shiftfield_F1_col (shift___anonstruct_coo_1 mat_0 x_1))]!=i_0)\n-> (0<=i_0) -> (i_0<i_2)\n-> ((L_l_vec_mult a_3 vec_0 mat_0 0 i_2 i_0 0 x_1)=\n    (L_l_vec_mult a_3 vec_0 mat_0 0 i_2 i_0 0 x_0))",
+                                              "pattern": "\\F>~<=<=[]#00#0#0$iL_l_vec_multL_l_vec_mult" },
+                                  "children": { "Call 'compute_coeff'": 
+                                                  [ { "header": "Cut",
+                                                      "tactic": "Wp.cut",
+                                                      "params": { "case": "MODUS",
+                                                                  "clause": 
+                                                                    { "select": "inside-step",
+                                                                    "at": 34,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nlet a_1 = (shift___anonstruct_coo_1 mat_0 i_7) in\nlet a_2 = (shift_sint32 out_2 a_0[(shiftfield_F1_col a_1)]) in\na_0[a_2\n  ->(to_sint32\n      ((to_sint32\n         (a_0[(shiftfield_F1_v a_1)]*\n          a_0[(shift_sint32 vec_0 a_0[(shiftfield_F1_row a_1)])]))+a_0[a_2]))]\n  [(shiftfield_F1_col\n     (shift___anonstruct_coo_1 mat_0 ((to_uint32 (1+i_7))-1)))]!=i_6",
+                                                                    "pattern": "~[]$i[=]shiftfield_F1_colhavocshift_sint32" } },
+                                                      "select": null,
+                                                      "children": { "Clause": 
+                                                                    [ { "prover": "alt-ergo",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.9355,
+                                                                    "steps": 1013 } ],
+                                                                    "Assume": 
+                                                                    [ { "header": "Cut",
+                                                                    "tactic": "Wp.cut",
+                                                                    "params": 
+                                                                    { "case": "MODUS",
+                                                                    "clause": 
+                                                                    { "select": "inside-step",
+                                                                    "at": 34,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "i_6<i_2",
+                                                                    "pattern": "<$i$i" } },
+                                                                    "select": null,
+                                                                    "children": 
+                                                                    { "Clause": 
+                                                                    [ { "prover": "alt-ergo",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.0263,
+                                                                    "steps": 16 } ],
+                                                                    "Assume": 
+                                                                    [ { "header": "Array",
+                                                                    "tactic": "Wp.array",
+                                                                    "params": {},
+                                                                    "select": 
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 0,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nlet a_1 = (shift___anonstruct_coo_1 mat_0 i_7) in\nlet a_2 = (shift_sint32 out_2 a_0[(shiftfield_F1_col a_1)]) in\na_0[a_2\n  ->(to_sint32\n      ((to_sint32\n         (a_0[(shiftfield_F1_v a_1)]*\n          a_0[(shift_sint32 vec_0 a_0[(shiftfield_F1_row a_1)])]))+a_0[a_2]))]\n  [(shift_sint32 out_2 i_6)]",
+                                                                    "pattern": "[][=]shift_sint32havocshift_sint32" },
+                                                                    "children": 
+                                                                    { "Diff Indices": 
+                                                                    [ { "header": "Instance",
+                                                                    "tactic": "Wp.instance",
+                                                                    "params": 
+                                                                    { "P1": 
+                                                                    { "select": "inside-goal",
+                                                                    "occur": 1,
+                                                                    "target": "i_6",
+                                                                    "pattern": "$i" },
+                                                                    "P2": null,
+                                                                    "P3": null,
+                                                                    "P4": null,
+                                                                    "P5": null,
+                                                                    "P6": null,
+                                                                    "P7": null,
+                                                                    "P8": null,
+                                                                    "P9": null,
+                                                                    "P10": null },
+                                                                    "select": 
+                                                                    { "select": "clause-step",
+                                                                    "at": 21,
+                                                                    "kind": "have",
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nforall i_0:int.\n(0<=i_0) -> (i_0<i_2)\n-> (a_0[(shift_sint32 out_2 i_0)]=\n    (L_l_vec_mult a_0 vec_0 mat_0 0 i_2 i_0 0 i_7))",
+                                                                    "pattern": "\\F><=<=0#0#0$i[]L_l_vec_multhavoc" },
+                                                                    "children": 
+                                                                    { "Instance": 
+                                                                    [ { "header": "Lemma",
+                                                                    "tactic": "Wp.lemma",
+                                                                    "params": 
+                                                                    { "lemma": 
+                                                                    { "id": "l_vec_mult_ident",
+                                                                    "title": "l_vec_mult_ident",
+                                                                    "descr": "(forall i_0:int.\n let a_0 = (shift_sint32 vec_0 i_0) in\n (0<=i_0) -> (i_0<length_v_0) -> (Mint_1[a_0]=Mint_0[a_0]))\n-> (forall i_0:int.\n    let a_0 = (shift___anonstruct_coo_1 c_0 i_0) in\n    (0<=i_0) -> (i_0<length_c_0)\n    -> (EqS1 (Load_S1 a_0 Mint_1) (Load_S1 a_0 Mint_0)))\n-> ((L_l_vec_mult Mint_1 vec_0 c_0 0 length_v_0 j_0 0 length_c_0)=\n    (L_l_vec_mult Mint_0 vec_0 c_0 0 length_v_0 j_0 0 length_c_0))" },
+                                                                    "P1": 
+                                                                    { "select": "inside-step",
+                                                                    "at": 21,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "(havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2)",
+                                                                    "pattern": "havoc$Mint_undef$Mintshift_sint32" },
+                                                                    "P2": 
+                                                                    { "select": "inside-step",
+                                                                    "at": 35,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nlet a_1 = (shift___anonstruct_coo_1 mat_0 i_7) in\nlet a_2 = (shift_sint32 out_2 a_0[(shiftfield_F1_col a_1)]) in\na_0[a_2\n  ->(to_sint32\n      ((to_sint32\n         (a_0[(shiftfield_F1_v a_1)]*\n          a_0[(shift_sint32 vec_0 a_0[(shiftfield_F1_row a_1)])]))+a_0[a_2]))]",
+                                                                    "pattern": "[=]havocshift_sint32to_sint32$Mint_undef" },
+                                                                    "P3": 
+                                                                    { "select": "inside-step",
+                                                                    "at": 21,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "vec_0",
+                                                                    "pattern": "$vec" },
+                                                                    "P4": 
+                                                                    { "select": "inside-step",
+                                                                    "at": 5,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "mat_0",
+                                                                    "pattern": "$mat" },
+                                                                    "P5": 
+                                                                    { "select": "inside-step",
+                                                                    "at": 36,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "i_2",
+                                                                    "pattern": "$i" },
+                                                                    "P6": 
+                                                                    { "select": "inside-step",
+                                                                    "at": 35,
+                                                                    "kind": "have",
+                                                                    "occur": 1,
+                                                                    "target": "i_6",
+                                                                    "pattern": "$i" },
+                                                                    "P7": 
+                                                                    { "select": "inside-step",
+                                                                    "at": 35,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "(to_uint32 (1+i_7))-1",
+                                                                    "pattern": "+-1to_uint32+1$i" },
+                                                                    "P8": null,
+                                                                    "P9": null,
+                                                                    "P10": null },
+                                                                    "select": 
+                                                                    { "select": "inside-step",
+                                                                    "at": 35,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nlet a_1 = (shift___anonstruct_coo_1 mat_0 i_7) in\nlet a_2 = (shift_sint32 out_2 a_0[(shiftfield_F1_col a_1)]) in\n(L_l_vec_mult\n  a_0[a_2\n    ->(to_sint32\n        ((to_sint32\n           (a_0[(shiftfield_F1_v a_1)]*\n            a_0[(shift_sint32 vec_0 a_0[(shiftfield_F1_row a_1)])]))+\n         a_0[a_2]))] vec_0 mat_0 0 i_2 i_6 0 ((to_uint32 (1+i_7))-1))",
+                                                                    "pattern": "L_l_vec_mult[=]$vec$mat0$i$i0+havoc" },
+                                                                    "children": 
+                                                                    { "l_vec_mult_ident": 
+                                                                    [ { "header": "Cut",
+                                                                    "tactic": "Wp.cut",
+                                                                    "params": 
+                                                                    { "case": "MODUS",
+                                                                    "clause": 
+                                                                    { "select": "inside-step",
+                                                                    "at": 35,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nlet a_1 = (shift___anonstruct_coo_1 mat_0 i_7) in\nlet a_2 = (shift_sint32 out_2 a_0[(shiftfield_F1_col a_1)]) in\nforall i_0:int.\nlet a_3 = (shift_sint32 vec_0 i_0) in\n(0<=i_0) -> (i_0<i_2)\n-> (a_0[a_2\n      ->(to_sint32\n          ((to_sint32\n             (a_0[(shiftfield_F1_v a_1)]*\n              a_0[(shift_sint32 vec_0 a_0[(shiftfield_F1_row a_1)])]))+\n           a_0[a_2]))][a_3]=a_0[a_3])",
+                                                                    "pattern": "\\F><=<=0#0#0$i[][][=]shift_sint32" } },
+                                                                    "select": null,
+                                                                    "children": 
+                                                                    { "Clause": 
+                                                                    [ { "prover": "alt-ergo",
+                                                                    "verdict": "valid",
+                                                                    "time": 2.0448,
+                                                                    "steps": 2071 } ],
+                                                                    "Assume": 
+                                                                    [ { "header": "Cut",
+                                                                    "tactic": "Wp.cut",
+                                                                    "params": 
+                                                                    { "case": "MODUS",
+                                                                    "clause": 
+                                                                    { "select": "inside-step",
+                                                                    "at": 35,
+                                                                    "kind": "have",
+                                                                    "occur": 0,
+                                                                    "target": "let a_0 = (havoc Mint_undef_0 Mint_11 (shift_sint32 out_2 0) i_2) in\nlet a_1 = (shift___anonstruct_coo_1 mat_0 i_7) in\nlet a_2 = (shift_sint32 out_2 a_0[(shiftfield_F1_col a_1)]) in\nforall i_0:int.\nlet a_3 = (shift___anonstruct_coo_1 mat_0 i_0) in\n(0<=i_0) -> ((2+i_0)<=(to_uint32 (1+i_7)))\n-> (EqS1\n     (Load_S1 a_3\n       a_0[a_2\n         ->(to_sint32\n             ((to_sint32\n                (a_0[(shiftfield_F1_v a_1)]*\n                 a_0[(shift_sint32 vec_0 a_0[(shiftfield_F1_row a_1)])]))+\n              a_0[a_2]))]) (Load_S1 a_3 a_0))",
+                                                                    "pattern": "\\F><=<=EqS10#0+to_uint32Load_S1Load_S1" } },
+                                                                    "select": null,
+                                                                    "children": 
+                                                                    { "Clause": 
+                                                                    [ { "prover": "alt-ergo",
+                                                                    "verdict": "valid",
+                                                                    "time": 1.5391,
+                                                                    "steps": 1494 } ],
+                                                                    "Assume": 
+                                                                    [ { "prover": "alt-ergo",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.0971,
+                                                                    "steps": 331 } ] } } ] } } ] } } ] } } ] } } ] } } ] } } ] } } ] } } ]

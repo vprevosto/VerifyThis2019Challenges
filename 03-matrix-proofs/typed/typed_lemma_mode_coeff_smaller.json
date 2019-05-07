@@ -1,0 +1,2 @@
+[ { "prover": "why3:Z3", "verdict": "timeout", "time": 10. },
+  { "prover": "alt-ergo", "verdict": "timeout", "time": 10. } ]
