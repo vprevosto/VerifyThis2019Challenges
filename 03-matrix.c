@@ -6,9 +6,9 @@ typedef struct {
   int v;
 } coo;
 
-/*@ axiomatic Arith { axiom assoc: \forall integer a,b,c;
-  (int)(a + (int)(b+c)) == (int)((int)(a+b)+c);
-}
+/*@ lemma assoc:
+     \forall integer a,b,c;
+      (int)(a + (int)(b+c)) == (int)((int)(a+b)+c);
 */
 
 /*@ predicate well_sorted(coo* mat, integer length) =
