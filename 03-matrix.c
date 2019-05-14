@@ -31,11 +31,10 @@ typedef struct {
   && well_dimensioned(mat,length,dim);
 */
 
-/*@ axiomatic Well_formed {
-  axiom wf_extend:
-   \forall coo* mat, integer l1,l2, dim;
-   0<l1<=l2 ==> well_formed(mat,l2,dim) ==> well_formed(mat,l1,dim);
-}
+/*@
+  lemma wf_extend:
+    \forall coo* mat, integer l1,l2, dim;
+     0<l1<=l2 ==> well_formed(mat,l2,dim) ==> well_formed(mat,l1,dim);
 */
 
 /*@ logic int coeff(
@@ -50,7 +49,7 @@ typedef struct {
 
 /*@
  axiomatic Coeffs {
- axiom coeff_ident{L1,L2}:
+ lemma coeff_ident{L1,L2}:
   \forall coo* c, integer length, i, j;
   (\forall integer idx; 0<=idx<length ==> \at(c[idx],L1) == \at(c[idx],L2))
   ==>
