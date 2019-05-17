@@ -12,9 +12,9 @@ typedef struct {
 */
 
 /*@ predicate well_sorted(coo* mat, integer length) =
-  \forall integer i,j; 0<=i<=j< length ==>
+  \forall integer i,j; 0<=i<j< length ==>
     mat[i].row <= mat[j].row &&
-    (mat[i].row == mat[j].row ==> mat[i].col <= mat[j].col);
+    (mat[i].row == mat[j].row ==> mat[i].col < mat[j].col);
 */
 
 /*@ predicate non_zero_coeff(coo* mat, integer length) =
@@ -48,45 +48,42 @@ typedef struct {
 */
 
 /*@
- axiomatic Coeffs {
  lemma coeff_ident{L1,L2}:
   \forall coo* c, integer length, i, j;
   (\forall integer idx; 0<=idx<length ==> \at(c[idx],L1) == \at(c[idx],L2))
   ==>
   coeff{L1}(c,0,length,i,j) == coeff{L2}(c,0,length,i,j);
 
+ lemma model_coeff_zero:
+    \forall coo* c, integer length, dim, i, j;
+    well_formed(c,length, dim) ==>
+    coeff(c,0,length,i,j) == 0 ==>
+    (\forall integer idx; 0<= idx < length ==>
+      c[idx].row != i || c[idx].col !=j);
 
- axiom model_coeff_exists:
+ lemma model_coeff_current:
+  \forall coo* c, integer idx, dim;
+  well_formed(c,idx,dim) ==> idx > 0 ==>
+    coeff(c,0,idx,c[idx-1].row,c[idx-1].col) == c[idx-1].v;
+
+ lemma model_coeff_submat:
+    \forall coo* c, integer idx, dim, i, j;
+    well_formed(c,idx,dim) ==> idx > 0 ==>
+    i != c[idx-1].row || j != c[idx-1].col ==>
+    coeff(c,0,idx,i,j) == coeff(c,0,idx-1,i,j);
+
+ lemma model_coeff_smaller:
+  \forall coo* c, integer idx, idx2, dim;
+  well_formed(c,idx,dim) ==> idx > idx2 >=0 ==>
+    coeff(c,0,idx2,c[idx-1].row,c[idx-1].col) == 0;
+
+ lemma model_coeff_exists:
   \forall coo* c, integer length, dim, i, j;
   well_formed(c,length,dim) ==>
   (\exists integer idx; 0<= idx < length && c[idx].row == i && c[idx].col == j)
   ==>
   (\forall integer idx; 0 <= idx <length && c[idx].row == i && c[idx].col ==j
     ==> c[idx].v == coeff(c,0,length,i,j));
-
- axiom model_coeff_submat:
-    \forall coo* c, integer idx, dim, i, j;
-    well_formed(c,idx,dim) ==> idx > 0 ==>
-    i != c[idx-1].row || j != c[idx-1].col ==>
-    coeff(c,0,idx,i,j) == coeff(c,0,idx-1,i,j);
-
- axiom mode_coeff_current:
-  \forall coo* c, integer idx, dim;
-  well_formed(c,idx,dim) ==> idx > 0 ==>
-    coeff(c,0,idx,c[idx-1].row,c[idx-1].col) == c[idx-1].v;
-
- axiom mode_coeff_smaller:
-  \forall coo* c, integer idx, idx2, dim;
-  well_formed(c,idx,dim) ==> idx > idx2 >=0 ==>
-    coeff(c,0,idx2,c[idx-1].row,c[idx-1].col) == 0;
-
- axiom model_coeff_zero:
-    \forall coo* c, integer length, dim, i, j;
-    well_formed(c,length, dim) ==>
-    coeff(c,0,length,i,j) == 0 ==>
-    (\forall integer idx; 0<= idx < length ==>
-      c[idx].row != i || c[idx].col !=j);
-}
 */
 
 /*@ logic int l_vec_mult(int* vec, coo* c,
@@ -94,13 +91,13 @@ typedef struct {
                              integer j,
                              integer pos_c,
                              integer length_c) =
-       pos_v == length_v ? (int)0
+       pos_v >= length_v ? (int)0
        : (int)(l_vec_mult(vec,c,pos_v+1,length_v,j,pos_c,length_c)
                + (int)(vec[pos_v] * coeff(c,pos_c,length_c,pos_v,j)));
 */
 
-/*@ axiomatic l_vec {
-  axiom l_vec_mult_ident{L1,L2}:
+/*@
+  lemma l_vec_mult_ident{L1,L2}:
   \forall int* vec, coo* c, integer length_v, j, length_c;
   (\forall integer idx_v; 0 <= idx_v < length_v ==>
     \at(vec[idx_v],L1) == \at(vec[idx_v],L2)) ==>
@@ -108,7 +105,7 @@ typedef struct {
     \at(c[idx_c],L1) == \at(c[idx_c],L2)) ==>
   l_vec_mult{L1}(vec,c,0,length_v,j,0,length_c) ==
   l_vec_mult{L2}(vec,c,0,length_v,j,0,length_c);
-}*/
+*/
 
 /*@ ghost
 /@ requires \valid(vec + (0 .. length - 1));

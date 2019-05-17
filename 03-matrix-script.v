@@ -25,23 +25,23 @@ Proof.
 intros length i j mem1 mem2 c Heq.
 elim(dec_Zgt 0 length).
 + intros Hneg.
-  generalize (Axiomatic.FixL_coeff 0 length i j mem1 c); intros Hdef1.
-  generalize (Axiomatic.FixL_coeff 0 length i j mem2 c); intros Hdef2.
+  generalize (FixL_coeff 0 length i j mem1 c); intros Hdef1.
+  generalize (FixL_coeff 0 length i j mem2 c); intros Hdef2.
   assert (0 < 0 \/ length <=0); auto with zarith.
   generalize (ite_then Hdef1 H).
   generalize (ite_then Hdef2 H); auto with zarith.
 + intros Hpos.
   replace 0 with (length - length); auto with zarith.
   refine (natlike_ind (fun x => L_coeff mem1 c (length-x) length i j = L_coeff mem2 c (length-x) length i j) _ _ length _).
-   - generalize (Axiomatic.FixL_coeff length length i j mem1 c); intros Hdef1.
-     generalize (Axiomatic.FixL_coeff length length i j mem2 c); intros Hdef2.
+   - generalize (FixL_coeff length length i j mem1 c); intros Hdef1.
+     generalize (FixL_coeff length length i j mem2 c); intros Hdef2.
      assert (length < 0 \/ length <= length); auto with zarith.
      generalize (ite_then Hdef1 H).
      generalize (ite_then Hdef2 H).
      replace (length - 0) with length; auto with zarith.
    - intros x Hposx Hind.
-     generalize (Axiomatic.FixL_coeff (length - Z.succ x) length i j mem1 c); intros Hdef1.
-     generalize (Axiomatic.FixL_coeff (length - Z.succ x) length i j mem2 c); intros Hdef2.
+     generalize (FixL_coeff (length - Z.succ x) length i j mem1 c); intros Hdef1.
+     generalize (FixL_coeff (length - Z.succ x) length i j mem2 c); intros Hdef2.
      assert (length > length - Z.succ x); auto with zarith.
      elim (dec_Zgt 0 (length - Z.succ x)).
      * intros H1.
@@ -113,6 +113,496 @@ elim(dec_Zgt 0 length).
                  intros Heq1 Heq2; rewrite <- Heq1; rewrite <- Heq2.
                  replace (1 + (length - Z.succ x)) with (length - x); auto with zarith.
    - auto with zarith.
+Qed.
+
+Goal typed_lemma_l_vec_mult_ident.
+Hint l_vec_mult_ident,property.
+Proof.
+intros dim idx length mem1 mem2 v c Heq_v Heq_m.
+elim (Z_lt_le_dec 0 dim).
++ intros Hspos.
+  replace 0 with (dim - dim) at 1; auto with zarith.
+  replace 0 with (dim - dim) at 2; auto with zarith.
+  cut (0 <= dim - dim); auto with zarith.
+  refine
+   (natlike_ind
+    (fun x => 0 <= dim - x -> 
+      L_l_vec_mult mem1 v c (dim - x) dim idx 0 length = L_l_vec_mult mem2 v c (dim - x) dim idx 0 length)
+     _ _ dim _).
+  - replace (dim - 0) with dim; auto with zarith.
+    generalize (FixL_l_vec_mult dim dim idx 0 length mem1 v c); intros Hdef.
+    assert (dim <= dim); auto with zarith.
+    generalize (ite_then Hdef H).
+    generalize (FixL_l_vec_mult dim dim idx 0 length mem2 v c); intros Hdef1.
+    generalize (ite_then Hdef1 H); auto with zarith.
+  - intros x Hxpos Hind Hxsmall.
+    assert (~(dim <= dim - Z.succ x)); auto with zarith.
+    generalize (FixL_l_vec_mult (dim - Z.succ x) dim idx 0 length mem1 v c); intros Hdef1.
+    generalize (FixL_l_vec_mult (dim - Z.succ x) dim idx 0 length mem2 v c); intros Hdef2.
+    generalize (ite_else Hdef1 H); clear Hdef1; intros Hdef1.
+    generalize (ite_else Hdef2 H); clear Hdef2; intros Hdef2.
+    rewrite <- Hdef1; clear Hdef1.
+    rewrite <- Hdef2; clear Hdef2.
+    replace (1 + (dim - Z.succ x)) with (dim -x); auto with zarith.
+    rewrite Hind; auto with zarith.
+    rewrite (Heq_v (dim - Z.succ x)); auto with zarith.
+    rewrite (Q_coeff_ident length (dim - Z.succ x) idx mem1 mem2 c); auto with zarith.
+  - auto with zarith.
++ generalize (FixL_l_vec_mult 0 dim idx 0 length mem1 v c); intros Hdef1.
+  generalize (FixL_l_vec_mult 0 dim idx 0 length mem2 v c); intros Hdef2.
+  intros Hneg.
+  generalize (ite_then Hdef1 Hneg); clear Hdef1.
+  generalize (ite_then Hdef2 Hneg); clear Hdef2.
+  auto with zarith.
+Qed.
+
+Goal typed_lemma_model_coeff_current.
+Hint model_coeff_current,property.
+Proof.
+intros length dim mem c cell Hspos Hwf.
+generalize Hspos.
+replace 0 with (length - length); auto with zarith.
+cut (0<=length - length); auto with zarith.
+refine (natlike_ind (fun x => 0<=length-x -> length - x < length -> mem .[ shiftfield_F1_v cell] = L_coeff mem c (length - x) length (mem .[shiftfield_F1_row cell]) (mem .[shiftfield_F1_col cell])) _ _ length _).
++ intros _ Habs; absurd (length < length); auto with zarith.
++ intros x Hle Hind Hlow Hhigh.
+  elim (Zle_lt_or_eq 0 x Hle).
+  - intros Hxspos.
+    generalize (FixL_coeff (length - Z.succ x) length (mem .[shiftfield_F1_row cell]) (mem .[ shiftfield_F1_col cell]) mem c).
+    intros Hdef.
+    assert (~(length - Z.succ x < 0 \/ length <= length - Z.succ x)); eauto with zarith.
+    generalize (ite_else Hdef H).
+    clear Hdef; intros Hdef.
+    unfold P_well_formed in Hwf; destruct Hwf.
+    unfold P_well_sorted in H0.
+    assert (length - Z.succ x < length - 1); auto with zarith.
+    assert (~(mem .[ shiftfield_F1_row cell] <
+              mem .[ shiftfield_F1_row (shift___anonstruct_coo_1 c (length - Z.succ x))])); auto with zarith.
+    * generalize (H0 (length - Z.succ x) (length - 1)).
+      intros Horder.
+      unfold cell.
+      assert (length - 1 < length); auto with zarith.
+    * generalize (ite_else Hdef H3).
+      clear Hdef; intros Hdef.
+      elim (Zle_lt_or_eq (mem .[ shiftfield_F1_row (shift___anonstruct_coo_1 c (length - Z.succ x))])
+                         (mem .[ shiftfield_F1_row cell])); auto with zarith.
+      ++ intros Hlt.
+         generalize (ite_then Hdef Hlt).
+         assert (1 + (length - Z.succ x) = length - x); auto with zarith.
+         rewrite H4.
+         intros Heq; rewrite <- Heq.
+         apply Hind; auto with zarith.
+      ++ intros Heq.
+         assert (~(mem .[ shiftfield_F1_row (shift___anonstruct_coo_1 c (length - Z.succ x))] <
+                   mem .[ shiftfield_F1_row cell]));
+         auto with zarith.
+         generalize (ite_else Hdef H4).
+         clear Hdef; intros Hdef.
+         assert (~(mem .[ shiftfield_F1_col cell] <
+                   mem .[ shiftfield_F1_col (shift___anonstruct_coo_1 c (length - Z.succ x))])); auto with zarith.
+         -- unfold cell.
+            generalize (H0 (length - Z.succ x) (length - 1)).
+            assert (length - 1 < length); auto with zarith.
+            assert (length - Z.succ x < length - 1); auto with zarith.
+            intros Hwo; destruct (Hwo H5 Hlow H6); auto with zarith.
+            generalize (H8 Heq); auto with zarith.
+         -- generalize (ite_else Hdef H5).
+            clear Hdef; intros Hdef.
+            assert (mem .[ shiftfield_F1_col (shift___anonstruct_coo_1 c (length - Z.succ x))] <
+                    mem .[ shiftfield_F1_col cell]).
+            ** generalize (H0 (length - Z.succ x) (length -1)).
+               assert (length - 1 < length); auto with zarith.
+               assert (length - Z.succ x < length - 1); auto with zarith.
+               intros Hwo; destruct (Hwo H6 Hlow H7).
+               generalize (H9 Heq); auto with zarith.
+            ** generalize (ite_then Hdef H6).
+               assert (1 + (length - Z.succ x) = length - x); auto with zarith.
+               rewrite H7.
+               intros Heq1; rewrite <- Heq1.
+               apply Hind; auto with zarith.
+  - intros Heq; rewrite <-Heq; simpl.
+    generalize (FixL_coeff (length - 1) (length) (mem .[ shiftfield_F1_row cell]) (mem .[ shiftfield_F1_col cell]) mem c).
+    assert (~(length - 1 < 0 \/ length <= length - 1)); auto with zarith.
+    intros Hdef.
+    generalize (ite_else Hdef H).
+    clear Hdef; intros Hdef.
+    unfold cell in Hdef.
+    assert (~(mem .[ shiftfield_F1_row (shift___anonstruct_coo_1 c (length - 1))] <
+              mem .[ shiftfield_F1_row (shift___anonstruct_coo_1 c (length - 1))]));
+    auto with zarith.
+    generalize (ite_else Hdef H0).
+    clear Hdef; intros Hdef.
+    generalize (ite_else Hdef H0).
+    clear Hdef; intros Hdef.
+    assert (~(mem .[ shiftfield_F1_col (shift___anonstruct_coo_1 c (length - 1))] <
+              mem .[ shiftfield_F1_col (shift___anonstruct_coo_1 c (length - 1))])); auto with zarith.
+    generalize (ite_else Hdef H1).
+    clear Hdef; intros Hdef.
+    generalize (ite_else Hdef H1).
+    trivial.
++ auto with zarith.
+Qed.
+
+Goal typed_lemma_model_coeff_exists.
+Hint model_coeff_exists,property.
+Proof.
+intros length dim i j mem c Hwf Hidx idx cell Hcol Hrow Hlow Hup.
+elim Hidx.
+intros idx2 Heq.
+elim (Z_eq_dec idx idx2).
++ intros Hidx_eq.
+  unfold cell.
+  rewrite Hidx_eq.
+  rewrite Hidx_eq in Hup.
+  replace length with (idx2 + 1 + (length - idx2 - 1)); auto with zarith.
+  cut (idx2 + 1 + (length -idx2 -1) <= length); auto with zarith.
+  refine (natlike_ind (fun x => idx2 + 1 + x <= length -> mem .[ shiftfield_F1_v (shift___anonstruct_coo_1 c idx2)] = L_coeff mem c 0 (idx2 + 1 + x) i j) _ _ (length - idx2 -1) _).
+  - assert (idx2 + 1 + 0 = idx2 + 1); auto with zarith.
+    assert (idx2 = (idx2 + 1) - 1); auto with zarith.
+    assert (0 < idx2 + 1); auto with zarith.
+    assert (idx2 + 1 <= length); auto with zarith.
+    generalize (Q_model_coeff_current (idx2 + 1) dim mem c H1 (Q_wf_extend (idx2 + 1) length dim mem c H1 H2 Hwf)).
+    destruct Heq.
+    destruct H4.
+    rewrite <- H0; rewrite H; rewrite H3; rewrite H4; auto with zarith.
+  - intros x Hxpos Hind.
+    assert (0 < idx2 + 1 + Z.succ x); auto with zarith.
+    intros Hleq.
+    generalize (Q_model_coeff_submat (idx2 + 1 + Z.succ x) dim i j mem c H (Q_wf_extend (idx2 + 1 + Z.succ x) length dim mem c H Hleq Hwf)).
+    assert (idx2 + 1 + Z.succ x -1 = idx2 + 1 + x); auto with zarith.
+    unfold P_well_formed in Hwf.
+    destruct Hwf.
+    unfold P_well_sorted in H1.
+    assert (0 <= idx2); auto with zarith.
+    assert (idx2 < idx2 + 1 + x); auto with zarith.
+    assert (idx2 + 1 + x < length); auto with zarith.
+    generalize (H1 idx2 (idx2 + 1 + x) H5 H3 H4).
+    rewrite H0.
+    intros Hord; destruct Hord.
+    elim (Zle_lt_or_eq (mem .[ shiftfield_F1_row (shift___anonstruct_coo_1 c idx2)])
+                        (mem .[ shiftfield_F1_row (shift___anonstruct_coo_1 c (idx2 + 1 + x))])
+                        H6).
+    * intros Hlt Hcoeff_eq.
+      unfold cell in Hrow; rewrite Hidx_eq in Hrow.
+      rewrite Hrow in Hlt.
+      rewrite <- Hcoeff_eq; auto with zarith.
+    * intros Hrow_eq Hcoeff_eq.
+      unfold cell in Hcol; rewrite Hidx_eq in Hcol.
+      rewrite Hcol in H7.
+      rewrite <- Hcoeff_eq; auto with zarith.
+  -  auto with zarith.
++ intros Hidx_neq.
+  unfold P_well_formed in Hwf.
+  destruct Hwf.
+  unfold P_well_sorted in H.
+  assert (idx < idx2 \/ idx2 < idx).
+  - elim (Ztrichotomy idx idx2); auto with zarith.
+  - destruct Heq.
+    destruct H3.
+    destruct H4.
+    elim H1.
+    * intros Hlt.
+      elim (H idx idx2 H5 Hlow Hlt).
+      intros Hrow_le Hcol_lt.
+      elim (Zle_lt_or_eq (mem .[ shiftfield_F1_row (shift___anonstruct_coo_1 c idx)])
+                         (mem .[ shiftfield_F1_row (shift___anonstruct_coo_1 c idx2)])
+                         Hrow_le).
+      ++ intros Habs.
+         unfold cell in Hrow.
+         rewrite Hrow in Habs.
+         rewrite H3 in Habs.
+         absurd (i < i); auto with zarith.
+      ++ intros Hrow_eq.
+         generalize (Hcol_lt Hrow_eq); clear Hcol_lt; intros Hcol_lt.
+         unfold cell in Hcol.
+         rewrite Hcol in Hcol_lt.
+         rewrite H2 in Hcol_lt.
+         absurd (j < j); auto with zarith.
+   * intros Hlt.
+     elim (H idx2 idx Hup H4 Hlt).
+     intros Hrow_le Hcol_lt.
+     elim (Zle_lt_or_eq (mem .[ shiftfield_F1_row (shift___anonstruct_coo_1 c idx2)])
+                        (mem .[ shiftfield_F1_row (shift___anonstruct_coo_1 c idx)])
+                        Hrow_le).
+      ++ intros Habs.
+         unfold cell in Hrow.
+         rewrite Hrow in Habs.
+         rewrite H3 in Habs.
+         absurd (i < i); auto with zarith.
+      ++ intros Hrow_eq.
+         generalize (Hcol_lt Hrow_eq); clear Hcol_lt; intros Hcol_lt.
+         unfold cell in Hcol.
+         rewrite Hcol in Hcol_lt.
+         rewrite H2 in Hcol_lt.
+         absurd (j < j); auto with zarith.
+Qed.
+
+Goal typed_lemma_model_coeff_smaller.
+Hint model_coeff_smaller,property.
+Proof.
+intros length idx dim mem c cell Hlow Hup Hwf.
+replace 0 with (idx - idx) at 1; auto with zarith.
+set (i:= (mem .[ shiftfield_F1_row cell])).
+set (j:= (mem .[ shiftfield_F1_col cell])).
+refine (natlike_ind (fun x => L_coeff mem c (idx - x) idx i j = 0) _ _ idx _).
++ replace (idx - 0) with idx; auto with zarith.
+  generalize (FixL_coeff idx idx i j mem c).
+  assert (idx < 0 \/ idx <= idx); auto with zarith.
+  intros Hdef; generalize (ite_then Hdef H); trivial.
++ intros x Hpos Hind.
+  generalize (FixL_coeff (idx - Z.succ x) idx i j mem c).
+  intros Hdef.
+  elim (Z_lt_le_dec (idx - Z.succ x) 0).
+  - intros Hlt.
+    assert (idx - Z.succ x < 0 \/ idx <= idx - Z.succ x); auto with zarith.
+    generalize (ite_then Hdef H); trivial.
+  - intros Hle.
+    assert (~(idx - Z.succ x < 0 \/ idx <= idx - Z.succ x)); auto with zarith.
+    generalize (ite_else Hdef H).
+    set (i1 := mem .[ shiftfield_F1_row (shift___anonstruct_coo_1 c (idx - Z.succ x))]).
+    set (j1 := mem .[ shiftfield_F1_col (shift___anonstruct_coo_1 c (idx - Z.succ x))]).
+    clear Hdef; intros Hdef.
+    unfold P_well_formed in Hwf.
+    destruct Hwf.
+    unfold P_well_sorted in H0.
+    assert (idx - Z.succ x < length - 1); auto with zarith.
+    assert (length - 1 < length); auto with zarith.
+    elim (H0 (idx - Z.succ x) (length - 1) H3 Hle H2); fold cell; fold i; fold j; fold i1; fold j1.
+    intros Hle_row Hlt_col.
+    assert (~(i < i1)); auto with zarith.
+    generalize (ite_else Hdef H4); clear Hdef; intros Hdef.
+    elim (Zle_lt_or_eq i1 i Hle_row).
+    * intros Hlt_row.
+      generalize (ite_then Hdef Hlt_row).
+      intros Hnext; rewrite <- Hnext.
+      replace (1 + (idx - Z.succ x)) with (idx - x); auto with zarith.
+    * intros Heq_row.
+      assert (~(i1 < i)); auto with zarith.
+      generalize (ite_else Hdef H5).
+      clear Hdef; intros Hdef.
+      assert (~(j < j1)); auto with zarith.
+      generalize (ite_else Hdef H6); clear Hdef; intros Hdef.
+      assert (j1 < j); auto with zarith.
+      generalize (ite_then Hdef H7).
+      intros Hnext; rewrite <- Hnext.
+      replace (1 + (idx - Z.succ x)) with (idx -x); auto with zarith.
++ trivial.
+Qed.
+
+Goal typed_lemma_model_coeff_submat.
+Hint model_coeff_submat,property.
+Proof.
+intros length dim i j mem c x coeff Hspos Hwf Hneq_coeff.
+unfold x; unfold x in coeff; clear x.
+set (i1 := mem .[ shiftfield_F1_row coeff]) in Hneq_coeff.
+set (j1 := mem .[ shiftfield_F1_col coeff]) in Hneq_coeff.
+replace 0 with ((length - 1) - (length - 1)); auto with zarith.
+refine (natlike_ind (fun x => L_coeff mem c (length - 1 - x) (length - 1) i j =
+                              L_coeff mem c (length - 1 - x) length i j) _ _ (length - 1) _).
+- replace (length - 1 - 0) with (length - 1); auto with zarith.
+  generalize (FixL_coeff (length - 1) (length - 1) i j mem c).
+  intros Hdef1.
+  assert (length - 1 < 0 \/ length - 1 <= length - 1); auto with zarith.
+  generalize (ite_then Hdef1 H); clear Hdef1; intros Hdef1.
+  rewrite Hdef1; clear Hdef1.
+  generalize (FixL_coeff (length - 1) length i j mem c).
+  intros Hdef.
+  assert (~(length - 1 < 0 \/ length <= length - 1)); auto with zarith.
+  generalize (ite_else Hdef H0); clear Hdef; intros Hdef.
+  fold coeff in Hdef; fold i1 in Hdef; fold j1 in Hdef.
+  elim Hneq_coeff.
+  + intros Hne_col.
+    elim (Ztrichotomy i i1).
+    * intros Hrow_lt.
+      generalize (ite_then Hdef Hrow_lt).
+      symmetry; trivial.
+    * intros Htricho; elim Htricho.
+      -- intros Heq.
+         assert (~(i<i1)); auto with zarith.
+         generalize (ite_else Hdef H1).
+         clear Hdef; intros Hdef.
+         assert (~(i1<i)); auto with zarith.
+         generalize (ite_else Hdef H2);
+         clear Hdef; intros Hdef.
+         elim (Ztrichotomy j j1).
+         ++ intros Hlt.
+            generalize (ite_then Hdef Hlt).
+            symmetry; trivial.
+         ++ intros Htricho_j; elim Htricho_j.
+            ** intros Habs; absurd (j = j1); auto with zarith.
+            ** intros Hlt.
+               assert (~(j < j1)); auto with zarith.
+               generalize (ite_else Hdef H3); clear Hdef; intros Hdef.
+               assert (j1 < j); auto with zarith.
+               generalize (ite_then Hdef H4).
+               replace (1 + (length - 1)) with length; auto with zarith.
+               generalize (FixL_coeff length length i j mem c).
+               intros Hdef1.
+               assert (length < 0 \/ length <= length); auto with zarith.
+               generalize (ite_then Hdef1 H5); auto with zarith.
+      -- intros Hlt.
+         assert (~(i < i1)); auto with zarith.
+         generalize (ite_else Hdef H1); clear Hdef; intros Hdef.
+         assert (i1 < i); auto with zarith.
+         generalize (ite_then Hdef H2).
+         replace (1 + (length - 1)) with length; auto with zarith.
+         generalize (FixL_coeff length length i j mem c).
+         intros Hdef1.
+         assert (length < 0 \/ length <= length); auto with zarith.
+         generalize (ite_then Hdef1 H3); auto with zarith.
+  + intros Hneq_row.
+    elim (Ztrichotomy i i1).
+    * intros Hlt.
+      generalize (ite_then Hdef Hlt); auto with zarith.
+    * intros Htricho; destruct Htricho.
+      -- absurd (i = i1); auto with zarith.
+      -- assert (~(i < i1)); auto with zarith.
+         generalize (ite_else Hdef H2); clear Hdef; intros Hdef.
+         assert (i1 < i); auto with zarith.
+         generalize (ite_then Hdef H3).
+         replace (1 + (length - 1)) with length; auto with zarith.
+         generalize (FixL_coeff length length i j mem c); clear Hdef; intros Hdef.
+         assert (length < 0 \/ length <= length); auto with zarith.
+         generalize (ite_then Hdef H4); auto with zarith.
+- intros x Hpos Hind.
+  generalize (FixL_coeff (length - 1 - Z.succ x) (length - 1) i j mem c).
+  elim (Z_lt_le_dec (length - 1 - Z.succ x) 0).
+  + intros Hlt.
+    assert (length - 1 - Z.succ x < 0 \/ length - 1 <= length - 1 - Z.succ x); auto with zarith.
+    intros Hdef.
+    generalize (ite_then Hdef H); clear Hdef; intros Heq; rewrite Heq.
+    generalize (FixL_coeff (length - 1 - Z.succ x) length i j mem c); intros Hdef.
+    assert (length - 1 - Z.succ x < 0 \/ length <= length - 1 - Z.succ x); auto with zarith.
+    generalize (ite_then Hdef H0); clear Hdef; symmetry; trivial.
+  + intros Hle.
+    assert (~(length - 1 - Z.succ x < 0 \/ length - 1 <= length - 1 - Z.succ x)); auto with zarith.
+    intros Hdef.
+    generalize (ite_else Hdef H); clear Hdef; intros Hdef.
+    generalize (FixL_coeff (length - 1- Z.succ x) length i j mem c).
+    assert (~(length - 1 - Z.succ x < 0 \/ length <= length - 1 - Z.succ x)); auto with zarith.
+    intros Hdef1; generalize (ite_else Hdef1 H0); clear Hdef1; intros Hdef1.
+    set (i2 := mem .[ shiftfield_F1_row (shift___anonstruct_coo_1 c (length - 1 - Z.succ x))]) in Hdef.
+    set (j2 := mem .[ shiftfield_F1_col (shift___anonstruct_coo_1 c (length - 1 - Z.succ x))]) in Hdef.
+    fold i2 j2 in Hdef1.
+    elim (Ztrichotomy i i2).
+    * intros Hrow_lt.
+      generalize (ite_then Hdef Hrow_lt).
+      intros Hrew; rewrite Hrew; clear Hrew Hdef.
+      generalize (ite_then Hdef1 Hrow_lt); auto with zarith.
+    * intros Htricho.
+      assert (~(i<i2)); auto with zarith.
+      generalize (ite_else Hdef H1); clear Hdef; intros Hdef.
+      generalize (ite_else Hdef1 H1); clear Hdef1; intros Hdef1.
+      destruct Htricho.
+      -- assert (~(i2<i)); auto with zarith.
+         generalize (ite_else Hdef H3); clear Hdef; intros Hdef.
+         generalize (ite_else Hdef1 H3); clear Hdef1; intros Hdef1.
+         elim (Ztrichotomy j j2).
+         ++ intros Hcol_lt.
+            generalize (ite_then Hdef Hcol_lt); clear Hdef.
+            intros Hrew; rewrite Hrew; clear Hrew.
+            generalize (ite_then Hdef1 Hcol_lt); auto with zarith.
+         ++ intros Htricho.
+            assert (~(j<j2)); auto with zarith.
+            generalize (ite_else Hdef H4); clear Hdef; intros Hdef.
+            generalize (ite_else Hdef1 H4); clear Hdef1; intros Hdef1.
+            destruct Htricho.
+            ** assert (~(j2 < j)); auto with zarith.
+               generalize (ite_else Hdef H6); clear Hdef; intros Hrew; rewrite <- Hrew.
+               generalize (ite_else Hdef1 H6); auto with zarith.
+            ** assert (j2 < j); auto with zarith.
+               generalize (ite_then Hdef H6); clear Hdef; intros Hrew; rewrite <- Hrew; clear Hrew.
+               generalize (ite_then Hdef1 H6); clear Hdef1; intros Hrew; rewrite <- Hrew; clear Hrew.
+               replace (1 + (length - 1 - Z.succ x)) with (length - 1 - x); auto with zarith.
+      -- assert (i2 < i); auto with zarith.
+         generalize (ite_then Hdef H3); clear Hdef; intros Hrew; rewrite <- Hrew; clear Hrew.
+         generalize (ite_then Hdef1 H3); clear Hdef1; intros Hrew; rewrite <- Hrew; clear Hrew.
+         replace (1 + (length - 1 - Z.succ x)) with (length - 1 - x); auto with zarith.
+- auto with zarith.
+Qed.
+
+Goal typed_lemma_model_coeff_zero.
+Hint model_coeff_zero,property.
+Proof.
+intros length dim i j mem c Hnull Hwf idx coeff Hlow Hup.
+destruct Hwf.
+destruct H0.
+unfold P_non_zero_coeff in H0.
+set (i1 := mem .[ shiftfield_F1_row coeff]).
+set (j1 := mem .[ shiftfield_F1_col coeff]).
+replace 0 with (idx - idx) in Hnull at 1; auto with zarith.
+generalize Hnull.
+cut (0 <= idx - idx); auto with zarith.
+refine
+ (natlike_ind
+  (fun x => 0 <= idx - x -> L_coeff mem c (idx - x) length i j = 0 -> j1 <> j \/ i1 <> i) _ _ idx _).
++ replace (idx - 0) with idx; auto with zarith.
+  generalize (FixL_coeff idx length i j mem c).
+  intros Hdef _.
+  assert (~(idx < 0 \/ length <= idx)); auto with zarith.
+  generalize (ite_else Hdef H2); clear Hdef; intros Hdef.
+  fold coeff in Hdef; fold i1 j1 in Hdef.
+  intros Hrew; rewrite Hrew in Hdef.
+  elim (Ztrichotomy i i1).
+  - intros Zlt; right; auto with zarith.
+  - intros Htricho; destruct Htricho.
+    * assert (~(i < i1)); auto with zarith.
+      generalize (ite_else Hdef H4); clear Hdef; intros Hdef.
+      assert (~(i1 < i)); auto with zarith.
+      generalize (ite_else Hdef H5); clear Hdef; intros Hdef.
+      elim (Ztrichotomy j j1).
+      ++ intros Hlt; left; auto with zarith.
+      ++ intros Htricho; destruct Htricho.
+         -- assert (~(j < j1)); auto with zarith.
+            generalize (ite_else Hdef H7); clear Hdef; intros Hdef.
+            assert (~(j1 < j)); auto with zarith.
+            generalize (ite_else Hdef H8); clear Hdef; intros Habs.
+            absurd (mem .[shiftfield_F1_v coeff] = 0); auto with zarith.
+            apply (H0 idx); auto with zarith.
+         -- left; auto with zarith.
+    * right; auto with zarith.
++ intros x Hxpos Hind Hxup Hnullx.
+  generalize (FixL_coeff (idx - Z.succ x) length i j mem c); intros Hdef; rewrite Hnullx in Hdef.
+  assert (~(idx - Z.succ x < 0 \/ length <= idx - Z.succ x)); auto with zarith.
+  generalize (ite_else Hdef H2); clear Hdef; intros Hdef.
+  set (i2 := mem .[ shiftfield_F1_row (shift___anonstruct_coo_1 c (idx - Z.succ x))]) in Hdef.
+  set (j2 := mem .[ shiftfield_F1_col (shift___anonstruct_coo_1 c (idx - Z.succ x))]) in Hdef.
+  unfold P_well_sorted in H.
+  assert (idx - Z.succ x < idx); auto with zarith.
+  generalize (H (idx - Z.succ x) idx Hup Hxup H3); clear H; intros Hcoeffs.
+  fold coeff in Hcoeffs.
+  fold i1 i2 j1 j2 in Hcoeffs.
+  destruct Hcoeffs.
+  elim (Ztrichotomy i i2).
+  - intros Hlt; right; auto with zarith.
+  - intros Htricho; destruct Htricho.
+    * assert (~(i < i2)); auto with zarith.
+      generalize (ite_else Hdef H6); clear Hdef; intros Hdef.
+      assert (~(i2 < i)); auto with zarith.
+      generalize (ite_else Hdef H7); clear Hdef; intros Hdef.
+      elim (Ztrichotomy j j2).
+      ++ intros Hlt.
+         destruct (Zle_lt_or_eq i2 i1 H).
+         -- right; auto with zarith.
+         -- left; auto with zarith.
+      ++ intros Htricho; destruct Htricho.
+         ** assert (~(j < j2)); auto with zarith.
+            generalize (ite_else Hdef H9); clear Hdef; intros Hdef.
+            assert (~(j2 < j)); auto with zarith.
+            generalize (ite_else Hdef H10); clear Hdef; intros Habs.
+            absurd (mem .[ shiftfield_F1_v (shift___anonstruct_coo_1 c (idx - Z.succ x))] = 0); trivial.
+            apply (H0 (idx - Z.succ x)); auto with zarith.
+         ** assert (~(j < j2)); auto with zarith.
+            generalize (ite_else Hdef H9); clear Hdef; intros Hdef.
+            assert (j2 < j); auto with zarith.
+            generalize (ite_then Hdef H10); clear Hdef; intros Heq.
+            replace (1 + (idx - Z.succ x)) with (idx - x) in Heq; auto with zarith.
+    * assert (~(i < i2)); auto with zarith.
+      generalize (ite_else Hdef H6); clear Hdef; intros Hdef.
+      assert (i2 < i); auto with zarith.
+      generalize (ite_then Hdef H7); clear Hdef; intros Heq.
+      replace (1 + (idx - Z.succ x)) with (idx - x) in Heq; auto with zarith.
++ trivial.
 Qed.
 
 
