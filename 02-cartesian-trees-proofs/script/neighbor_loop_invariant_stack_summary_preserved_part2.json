@@ -1,7 +1,4 @@
-[ { "prover": "why3:Z3", "verdict": "timeout", "time": 10. },
-  { "prover": "script", "verdict": "valid" },
-  { "prover": "alt-ergo", "verdict": "timeout", "time": 10. },
-  { "header": "Cut", "tactic": "Wp.cut",
+[ { "header": "Cut", "tactic": "Wp.cut",
     "params": { "case": "CASES",
                 "clause": { "select": "compose", "id": "wp:eq",
                             "args": [ { "select": "inside-goal", "occur": 0,
@@ -11,9 +8,10 @@
                                         "target": "sidx_5",
                                         "pattern": "$sidx" } ] } },
     "select": null,
-    "children": { "Negative": [ { "prover": "alt-ergo", "verdict": "timeout",
-                                  "time": 10. },
-                                { "header": "Cut", "tactic": "Wp.cut",
+    "children": { "Positive": [ { "prover": "Alt-Ergo:2.0.0",
+                                  "verdict": "valid", "time": 1.7327,
+                                  "steps": 1560 } ],
+                  "Negative": [ { "header": "Cut", "tactic": "Wp.cut",
                                   "params": { "case": "MODUS",
                                               "clause": { "select": "compose",
                                                           "id": "wp:lt",
@@ -28,10 +26,11 @@
                                                                     "target": "sidx_5",
                                                                     "pattern": "$sidx" } ] } },
                                   "select": null,
-                                  "children": { "Assume": [ { "prover": "alt-ergo",
-                                                              "verdict": "timeout",
-                                                              "time": 10. },
-                                                            { "header": "Instance",
+                                  "children": { "Clause": [ { "prover": "Alt-Ergo:2.0.0",
+                                                              "verdict": "valid",
+                                                              "time": 0.3617,
+                                                              "steps": 298 } ],
+                                                "Assume": [ { "header": "Instance",
                                                               "tactic": "Wp.instance",
                                                               "params": 
                                                                 { "P1": 
@@ -41,7 +40,7 @@
                                                                     "pattern": "$i" },
                                                                   "P2": 
                                                                     { "select": "inside-step",
-                                                                    "at": 2,
+                                                                    "at": 3,
                                                                     "kind": "have",
                                                                     "occur": 1,
                                                                     "target": "i_25",
@@ -58,14 +57,11 @@
                                                                 { "select": "clause-step",
                                                                   "at": 12,
                                                                   "kind": "have",
-                                                                  "target": "let a_0 =\n    (havoc Mint_undef_0\n      (havoc Mint_undef_1 Mint_0 (shift_uint32 left_0 0) length_1)\n      (shift_uint32 stack_1 0) length_1) in\nforall i_0:int.\nlet a_1 = a_0[(shift_uint32 stack_1 (1+i_0))] in\n(0<=i_0) -> ((2+i_0)<=sidx_0)\n-> (forall i_1:int.\n    (a_0[(shift_uint32 stack_1 i_0)]<=i_1) -> ((2+i_1)<=a_1)\n    -> (a_0[(shift_sint32 s_2 (a_1-1))]<=a_0[(shift_sint32 s_2 i_1)]))",
+                                                                  "target": "let a_0 =\n    (havoc Mint_undef_0\n      (havoc Mint_undef_1 Mint_19 (shift_uint32 left_0 0) length_1)\n      (shift_uint32 stack_1 0) length_1) in\nforall i_0:int.\nlet a_1 = a_0[(shift_uint32 stack_1 (1+i_0))] in\n(0<=i_0) -> ((2+i_0)<=sidx_0)\n-> (forall i_1:int.\n    (a_0[(shift_uint32 stack_1 i_0)]<=i_1) -> ((2+i_1)<=a_1)\n    -> (Mint_3[(shift_sint32 s_2 (a_1-1))]<=Mint_3[(shift_sint32 s_2 i_1)]))",
                                                                   "pattern": "\\F><=<=\\F0#1+$sidx>2#1<=<=<=[]#0" },
                                                               "children": 
                                                                 { "Instance": 
-                                                                    [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Cut",
+                                                                    [ { "header": "Cut",
                                                                     "tactic": "Wp.cut",
                                                                     "params": 
                                                                     { "case": "MODUS",
@@ -78,11 +74,13 @@
                                                                     "pattern": "<=+$sidx2$i" } },
                                                                     "select": null,
                                                                     "children": 
-                                                                    { "Assume": 
-                                                                    [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Cut",
+                                                                    { "Clause": 
+                                                                    [ { "prover": "Alt-Ergo:2.0.0",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.0255,
+                                                                    "steps": 57 } ],
+                                                                    "Assume": 
+                                                                    [ { "header": "Cut",
                                                                     "tactic": "Wp.cut",
                                                                     "params": 
                                                                     { "case": "MODUS",
@@ -91,15 +89,12 @@
                                                                     "at": 12,
                                                                     "kind": "have",
                                                                     "occur": 0,
-                                                                    "target": "(2+i_25)<=\n(havoc Mint_undef_0\n  (havoc Mint_undef_1 Mint_0 (shift_uint32 left_0 0) length_1)\n  (shift_uint32 stack_1 0) length_1)[(shift_uint32 stack_1 (1+i_24))]",
+                                                                    "target": "(2+i_25)<=\n(havoc Mint_undef_0\n  (havoc Mint_undef_1 Mint_19 (shift_uint32 left_0 0) length_1)\n  (shift_uint32 stack_1 0) length_1)[(shift_uint32 stack_1 (1+i_24))]",
                                                                     "pattern": "<=+[]2$ihavocshift_uint32$Mint_undef" } },
                                                                     "select": null,
                                                                     "children": 
                                                                     { "Clause": 
-                                                                    [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Cut",
+                                                                    [ { "header": "Cut",
                                                                     "tactic": "Wp.cut",
                                                                     "params": 
                                                                     { "case": "MODUS",
@@ -108,22 +103,19 @@
                                                                     "id": "wp:eq",
                                                                     "args": 
                                                                     [ { "select": "inside-step",
-                                                                    "at": 2,
+                                                                    "at": 3,
                                                                     "kind": "have",
                                                                     "occur": 1,
-                                                                    "target": "let a_0 =\n    (havoc Mint_undef_0\n      (havoc Mint_undef_1 Mint_0 (shift_uint32 left_0 0) length_1)\n      (shift_uint32 stack_1 0) length_1) in\na_0[(shift_uint32 left_0 x_3)\n  ->a_0[(shift_uint32 stack_1 (to_uint32 (sidx_5-1)))]]\n  [(shift_uint32 stack_1 sidx_5)->(to_uint32 (1+x_3))]\n  [(shift_uint32 stack_1 (1+i_24))]",
+                                                                    "target": "let a_0 =\n    (havoc Mint_undef_0\n      (havoc Mint_undef_1 Mint_19 (shift_uint32 left_0 0) length_1)\n      (shift_uint32 stack_1 0) length_1) in\na_0[(shift_uint32 left_0 x_3)\n  ->a_0[(shift_uint32 stack_1 (to_uint32 (sidx_5-1)))]]\n  [(shift_uint32 stack_1 sidx_5)->(to_uint32 (1+x_3))]\n  [(shift_uint32 stack_1 (1+i_24))]",
                                                                     "pattern": "[][=]shift_uint32[=]shift_uint32" },
                                                                     { "select": "inside-goal",
                                                                     "occur": 0,
-                                                                    "target": "(havoc Mint_undef_0\n  (havoc Mint_undef_1 Mint_0 (shift_uint32 left_0 0) length_1)\n  (shift_uint32 stack_1 0) length_1)[(shift_uint32 stack_1 (1+i_24))]",
+                                                                    "target": "(havoc Mint_undef_0\n  (havoc Mint_undef_1 Mint_19 (shift_uint32 left_0 0) length_1)\n  (shift_uint32 stack_1 0) length_1)[(shift_uint32 stack_1 (1+i_24))]",
                                                                     "pattern": "[]havocshift_uint32$Mint_undefhavoc" } ] } },
                                                                     "select": null,
                                                                     "children": 
                                                                     { "Clause": 
-                                                                    [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Cut",
+                                                                    [ { "header": "Cut",
                                                                     "tactic": "Wp.cut",
                                                                     "params": 
                                                                     { "case": "MODUS",
@@ -136,7 +128,7 @@
                                                                     "args": 
                                                                     [ { "select": "inside-goal",
                                                                     "occur": 0,
-                                                                    "target": "let a_0 =\n    (havoc Mint_undef_0\n      (havoc Mint_undef_1 Mint_0 (shift_uint32 left_0 0) length_1)\n      (shift_uint32 stack_1 0) length_1) in\na_0[(shift_uint32 left_0 x_3)\n  ->a_0[(shift_uint32 stack_1 (to_uint32 (sidx_5-1)))]]",
+                                                                    "target": "let a_0 =\n    (havoc Mint_undef_0\n      (havoc Mint_undef_1 Mint_19 (shift_uint32 left_0 0) length_1)\n      (shift_uint32 stack_1 0) length_1) in\na_0[(shift_uint32 left_0 x_3)\n  ->a_0[(shift_uint32 stack_1 (to_uint32 (sidx_5-1)))]]",
                                                                     "pattern": "[=]havocshift_uint32[]$Mint_undef" },
                                                                     { "select": "inside-goal",
                                                                     "occur": 0,
@@ -144,15 +136,12 @@
                                                                     "pattern": "shift_uint32$stack+1$i" } ] },
                                                                     { "select": "inside-goal",
                                                                     "occur": 0,
-                                                                    "target": "let a_0 =\n    (havoc Mint_undef_0\n      (havoc Mint_undef_1 Mint_0 (shift_uint32 left_0 0) length_1)\n      (shift_uint32 stack_1 0) length_1) in\na_0[(shift_uint32 left_0 x_3)\n  ->a_0[(shift_uint32 stack_1 (to_uint32 (sidx_5-1)))]]\n  [(shift_uint32 stack_1 sidx_5)->(to_uint32 (1+x_3))]\n  [(shift_uint32 stack_1 (1+i_24))]",
+                                                                    "target": "let a_0 =\n    (havoc Mint_undef_0\n      (havoc Mint_undef_1 Mint_19 (shift_uint32 left_0 0) length_1)\n      (shift_uint32 stack_1 0) length_1) in\na_0[(shift_uint32 left_0 x_3)\n  ->a_0[(shift_uint32 stack_1 (to_uint32 (sidx_5-1)))]]\n  [(shift_uint32 stack_1 sidx_5)->(to_uint32 (1+x_3))]\n  [(shift_uint32 stack_1 (1+i_24))]",
                                                                     "pattern": "[][=]shift_uint32[=]shift_uint32" } ] } },
                                                                     "select": null,
                                                                     "children": 
                                                                     { "Clause": 
-                                                                    [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Cut",
+                                                                    [ { "header": "Cut",
                                                                     "tactic": "Wp.cut",
                                                                     "params": 
                                                                     { "case": "MODUS",
@@ -173,24 +162,27 @@
                                                                     "pattern": "$sidx" } ] } ] } },
                                                                     "select": null,
                                                                     "children": 
-                                                                    { "Assume": 
-                                                                    [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Array",
+                                                                    { "Clause": 
+                                                                    [ { "prover": "qed",
+                                                                    "verdict": "valid" } ],
+                                                                    "Assume": 
+                                                                    [ { "header": "Array",
                                                                     "tactic": "Wp.array",
                                                                     "params": {},
                                                                     "select": 
                                                                     { "select": "inside-goal",
                                                                     "occur": 0,
-                                                                    "target": "let a_0 =\n    (havoc Mint_undef_0\n      (havoc Mint_undef_1 Mint_0 (shift_uint32 left_0 0) length_1)\n      (shift_uint32 stack_1 0) length_1) in\na_0[(shift_uint32 left_0 x_3)\n  ->a_0[(shift_uint32 stack_1 (to_uint32 (sidx_5-1)))]]\n  [(shift_uint32 stack_1 sidx_5)->(to_uint32 (1+x_3))]\n  [(shift_uint32 stack_1 (1+i_24))]",
+                                                                    "target": "let a_0 =\n    (havoc Mint_undef_0\n      (havoc Mint_undef_1 Mint_19 (shift_uint32 left_0 0) length_1)\n      (shift_uint32 stack_1 0) length_1) in\na_0[(shift_uint32 left_0 x_3)\n  ->a_0[(shift_uint32 stack_1 (to_uint32 (sidx_5-1)))]]\n  [(shift_uint32 stack_1 sidx_5)->(to_uint32 (1+x_3))]\n  [(shift_uint32 stack_1 (1+i_24))]",
                                                                     "pattern": "[][=]shift_uint32[=]shift_uint32" },
-                                                                    "children": {} } ] } } ],
+                                                                    "children": 
+                                                                    { "Same Indices": 
+                                                                    [ { "prover": "qed",
+                                                                    "verdict": "valid" } ],
+                                                                    "Diff Indices": 
+                                                                    [ { "prover": "qed",
+                                                                    "verdict": "valid" } ] } } ] } } ],
                                                                     "Assume": 
-                                                                    [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Cut",
+                                                                    [ { "header": "Cut",
                                                                     "tactic": "Wp.cut",
                                                                     "params": 
                                                                     { "case": "MODUS",
@@ -212,10 +204,7 @@
                                                                     "select": null,
                                                                     "children": 
                                                                     { "Clause": 
-                                                                    [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Separated",
+                                                                    [ { "header": "Separated",
                                                                     "tactic": "Wp.separated",
                                                                     "params": {},
                                                                     "select": 
@@ -225,12 +214,37 @@
                                                                     "occur": 0,
                                                                     "target": "(separated (shift_uint32 stack_1 0) length_1 (shift_uint32 left_0 0)\n  length_1)",
                                                                     "pattern": "separatedshift_uint32$lengthshift_uint32" },
-                                                                    "children": {} } ] } } ] } } ] } } ],
+                                                                    "children": 
+                                                                    { "WrongBase": 
+                                                                    [ { "prover": "Alt-Ergo:2.0.0",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.052,
+                                                                    "steps": 112 } ],
+                                                                    "OnLeft": 
+                                                                    [ { "prover": "Alt-Ergo:2.0.0",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.0659,
+                                                                    "steps": 113 } ],
+                                                                    "OnRight": 
+                                                                    [ { "prover": "Alt-Ergo:2.0.0",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.0634,
+                                                                    "steps": 113 } ],
+                                                                    "OverLap": 
+                                                                    [ { "prover": "qed",
+                                                                    "verdict": "valid" } ] } } ],
                                                                     "Assume": 
-                                                                    [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Cut",
+                                                                    [ { "prover": "Alt-Ergo:2.0.0",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.0331,
+                                                                    "steps": 60 } ] } } ] } } ],
+                                                                    "Assume": 
+                                                                    [ { "prover": "Alt-Ergo:2.0.0",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.0281,
+                                                                    "steps": 59 } ] } } ],
+                                                                    "Assume": 
+                                                                    [ { "header": "Cut",
                                                                     "tactic": "Wp.cut",
                                                                     "params": 
                                                                     { "case": "MODUS",
@@ -239,21 +253,23 @@
                                                                     "at": 12,
                                                                     "kind": "have",
                                                                     "occur": 0,
-                                                                    "target": "(havoc Mint_undef_0\n  (havoc Mint_undef_1 Mint_0 (shift_uint32 left_0 0) length_1)\n  (shift_uint32 stack_1 0) length_1)[(shift_uint32 stack_1 i_24)]<=i_25",
+                                                                    "target": "(havoc Mint_undef_0\n  (havoc Mint_undef_1 Mint_19 (shift_uint32 left_0 0) length_1)\n  (shift_uint32 stack_1 0) length_1)[(shift_uint32 stack_1 i_24)]<=i_25",
                                                                     "pattern": "<=[]$ihavocshift_uint32$Mint_undef" } },
                                                                     "select": 
                                                                     { "select": "inside-step",
                                                                     "at": 12,
                                                                     "kind": "have",
                                                                     "occur": 0,
-                                                                    "target": "(havoc Mint_undef_0\n  (havoc Mint_undef_1 Mint_0 (shift_uint32 left_0 0) length_1)\n  (shift_uint32 stack_1 0) length_1)[(shift_uint32 stack_1 i_24)]<=i_25",
+                                                                    "target": "(havoc Mint_undef_0\n  (havoc Mint_undef_1 Mint_19 (shift_uint32 left_0 0) length_1)\n  (shift_uint32 stack_1 0) length_1)[(shift_uint32 stack_1 i_24)]<=i_25",
                                                                     "pattern": "<=[]$ihavocshift_uint32$Mint_undef" },
                                                                     "children": 
-                                                                    { "Assume": 
-                                                                    [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Cut",
+                                                                    { "Clause": 
+                                                                    [ { "prover": "Alt-Ergo:2.0.0",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.2787,
+                                                                    "steps": 371 } ],
+                                                                    "Assume": 
+                                                                    [ { "header": "Cut",
                                                                     "tactic": "Wp.cut",
                                                                     "params": 
                                                                     { "case": "MODUS",
@@ -261,23 +277,15 @@
                                                                     { "select": "compose",
                                                                     "id": "wp:eq",
                                                                     "args": 
-                                                                    [ { "select": "inside-goal",
-                                                                    "occur": 1,
-                                                                    "target": "let a_0 =\n    (havoc Mint_undef_0\n      (havoc Mint_undef_1 Mint_0 (shift_uint32 left_0 0) length_1)\n      (shift_uint32 stack_1 0) length_1) in\na_0[(shift_uint32 left_0 x_3)\n  ->a_0[(shift_uint32 stack_1 (to_uint32 (sidx_5-1)))]]\n  [(shift_uint32 stack_1 sidx_5)->(to_uint32 (1+x_3))]\n  [(shift_sint32 s_2 i_25)]",
-                                                                    "pattern": "[][=]shift_sint32[=]shift_uint32" },
-                                                                    { "select": "inside-step",
-                                                                    "at": 13,
-                                                                    "kind": "have",
-                                                                    "occur": 1,
-                                                                    "target": "(havoc Mint_undef_0\n  (havoc Mint_undef_1 Mint_0 (shift_uint32 left_0 0) length_1)\n  (shift_uint32 stack_1 0) length_1)[(shift_sint32 s_2 i_25)]",
-                                                                    "pattern": "[]havocshift_sint32$Mint_undefhavoc" } ] } },
+                                                                    [ null,
+                                                                    null ] } },
                                                                     "select": null,
                                                                     "children": 
-                                                                    { "Assume": 
-                                                                    [ { "prover": "alt-ergo",
-                                                                    "verdict": "timeout",
-                                                                    "time": 10. },
-                                                                    { "header": "Cut",
+                                                                    { "Clause": 
+                                                                    [ { "prover": "qed",
+                                                                    "verdict": "valid" } ],
+                                                                    "Assume": 
+                                                                    [ { "header": "Cut",
                                                                     "tactic": "Wp.cut",
                                                                     "params": 
                                                                     { "case": "MODUS",
@@ -287,13 +295,23 @@
                                                                     "args": 
                                                                     [ { "select": "inside-goal",
                                                                     "occur": 0,
-                                                                    "target": "let a_0 =\n    (havoc Mint_undef_0\n      (havoc Mint_undef_1 Mint_0 (shift_uint32 left_0 0) length_1)\n      (shift_uint32 stack_1 0) length_1) in\na_0[(shift_uint32 left_0 x_3)\n  ->a_0[(shift_uint32 stack_1 (to_uint32 (sidx_5-1)))]]\n  [(shift_uint32 stack_1 sidx_5)->(to_uint32 (1+x_3))]\n  [(shift_uint32 stack_1 (1+i_24))]",
+                                                                    "target": "let a_0 =\n    (havoc Mint_undef_0\n      (havoc Mint_undef_1 Mint_19 (shift_uint32 left_0 0) length_1)\n      (shift_uint32 stack_1 0) length_1) in\na_0[(shift_uint32 left_0 x_3)\n  ->a_0[(shift_uint32 stack_1 (to_uint32 (sidx_5-1)))]]\n  [(shift_uint32 stack_1 sidx_5)->(to_uint32 (1+x_3))]\n  [(shift_uint32 stack_1 (1+i_24))]",
                                                                     "pattern": "[][=]shift_uint32[=]shift_uint32" },
                                                                     { "select": "inside-step",
                                                                     "at": 13,
                                                                     "kind": "have",
                                                                     "occur": 0,
-                                                                    "target": "(havoc Mint_undef_0\n  (havoc Mint_undef_1 Mint_0 (shift_uint32 left_0 0) length_1)\n  (shift_uint32 stack_1 0) length_1)[(shift_uint32 stack_1 (1+i_24))]",
+                                                                    "target": "(havoc Mint_undef_0\n  (havoc Mint_undef_1 Mint_19 (shift_uint32 left_0 0) length_1)\n  (shift_uint32 stack_1 0) length_1)[(shift_uint32 stack_1 (1+i_24))]",
                                                                     "pattern": "[]havocshift_uint32$Mint_undefhavoc" } ] } },
                                                                     "select": null,
-                                                                    "children": {} } ] } } ] } } ] } } ] } } ] } } ] } } ] } } ]
+                                                                    "children": 
+                                                                    { "Clause": 
+                                                                    [ { "prover": "Alt-Ergo:2.0.0",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.3051,
+                                                                    "steps": 438 } ],
+                                                                    "Assume": 
+                                                                    [ { "prover": "Alt-Ergo:2.0.0",
+                                                                    "verdict": "valid",
+                                                                    "time": 0.0351,
+                                                                    "steps": 62 } ] } } ] } } ] } } ] } } ] } } ] } } ] } } ] } } ]
