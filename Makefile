@@ -12,7 +12,7 @@ COMMONOPTS=-wp -wp-rte -wp-split $(EXTRAOPTS) \
                 $*.c
 %-gui:
 	frama-c-gui $(COMMONOPTS) \
-                    -wp-prover alt-ergo,tip \
+                    -wp-prover alt-ergo,tip,native:coq \
                     -wp-par 8 \
                     $*.c
 
